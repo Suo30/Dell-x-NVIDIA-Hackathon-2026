@@ -1,6 +1,6 @@
 """Scoring, flags, routes, sort. Pure code, no model. Owner: B.
 Rules: MASTER_CONTEXT section 7. Both match_jobs.py (B) and
-match_candidates.py (C) call evaluate(), so keep its signature stable.
+match_candidates.py (D) call evaluate(), so keep its signature stable.
 
     evaluate(job: dict, profile: dict) -> dict
         job: {"id", "requirements": [...6.4...], "sponsorship": bool|None,
@@ -23,7 +23,11 @@ match_candidates.py (C) call evaluate(), so keep its signature stable.
         Evidence of strong must requirements, then strong nice, deduplicated.
     parse_hourly(pay) -> float|None
         First number in the pay text, hourly USD; values over 1000 are annual (/2080).
+    job_from_row(row) -> dict
+        jobs table row -> evaluate() job dict (sponsorship 0/1/NULL -> False/True/None).
+        Used by match_jobs and match_candidates so both convert identically.
 """
+import json
 import re
 
 import _taxonomy
@@ -54,6 +58,21 @@ def _requirement(req, by_skill, job_id):
     closable = match == "partial" or (match == "none" and req["importance"] == "nice")
     return {"skill_id": req["skill_id"], "importance": req["importance"], "required": required,
             "candidate_level": level, "match": match, "evidence": evidence, "closable": closable}
+
+
+def job_from_row(row):
+    if row["requirements_json"] is None:
+        raise RuntimeError(f"job {row['id']} has no requirements_json; run extract_reqs first")
+    return {
+        "id": row["id"],
+        "requirements": json.loads(row["requirements_json"]),
+        "sponsorship": None if row["sponsorship"] is None else bool(row["sponsorship"]),
+        "clearance": row["clearance"],
+        "location": row["location"],
+        "company": row["company"],
+        "pay": row["pay"],
+        "paid": row["paid"],
+    }
 
 
 def evaluate(job, profile):
