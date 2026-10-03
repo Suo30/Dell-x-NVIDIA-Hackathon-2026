@@ -359,7 +359,7 @@ screen_resumes.py --title "X" --jd-file PATH --resumes PATH [PATH ...] [--consen
         "results": [{"file", "resume_id", "status", "route", "rank", "top_30_percent", "evidence_score",
                      "coverage", "fit_label", "required_met", "hard_gaps", "summary", "strengths",
                      "unknowns", "sources": [{"platform", "url", "status"}]}],
-        "notice"}
+        "slack": "Slack-ready report of the same results", "notice"}
 ```
 
 `screen_resumes` covers outside applicants to the public JD (section 2), who have resumes but no app profile.

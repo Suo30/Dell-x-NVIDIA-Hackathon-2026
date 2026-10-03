@@ -149,3 +149,19 @@ def test_slack_report_lists_scores_and_gaps():
     assert "95.0/100" in text
     assert "Strong demonstrated alignment" in text
     assert "Decision support only." in text
+
+
+def test_slack_report_orders_like_streamlit():
+    def row(file, rank, top, score):
+        return {
+            "file": file, "rank": rank, "top_30_percent": top, "evidence_score": score,
+            "coverage": 50.0, "fit_label": "potential_role_alignment", "required_met": "1/2",
+            "hard_gaps": [], "summary": "no decision", "strengths": [], "unknowns": [],
+        }
+
+    # results arrive in rank order; unranked rows keep file order
+    results = [row("a.txt", 1, True, 80.0), row("b.txt", 2, False, 40.0),
+               row("c.txt", None, False, 70.0), row("d.txt", None, False, None)]
+    text = screen_resumes.slack_report("Backend", results, "n")
+    headers = [line for line in text.splitlines() if line.startswith("*") and line.endswith(".txt*")]
+    assert headers == ["*a.txt*", "*c.txt*", "*b.txt*", "*d.txt*"]

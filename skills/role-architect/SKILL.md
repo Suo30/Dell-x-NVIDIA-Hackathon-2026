@@ -1,6 +1,6 @@
 ---
 name: role-architect
-description: Hiring managers in #hiring: turn a vague role request into a JD, shortlist app candidates and screen outside applicant resumes. If they already paste a finished JD and resumes, score fit immediately. Never write a JD in chat.
+description: Hiring managers in #hiring: draft a JD from a vague request, shortlist app candidates, or score a finished JD plus resumes. Never write a JD in chat.
 ---
 # Role Architect
 
