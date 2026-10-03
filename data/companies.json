@@ -1,1 +1,8 @@
-[]
+[
+  {"company": "Formlabs",  "source": "greenhouse", "slug": "formlabs"},
+  {"company": "Datadog",   "source": "greenhouse", "slug": "datadog"},
+  {"company": "Waymo",     "source": "greenhouse", "slug": "waymo"},
+  {"company": "Robinhood", "source": "greenhouse", "slug": "robinhood"},
+  {"company": "Figma",     "source": "greenhouse", "slug": "figma"},
+  {"company": "Palantir",  "source": "lever",      "slug": "palantir"}
+]
