@@ -1,10 +1,14 @@
 """Model access. Owner: C. Extraction only; code decides scores and routes.
 
-    chat_json(system: str, user: str, *, mock: dict, max_tokens: int = 2048) -> dict
+    chat_json(system: str, user: str, *, mock: dict, max_tokens: int = 4000) -> dict
 
 - POST {LLM_BASE_URL}/chat/completions with model=LLM_MODEL, temperature=0,
   chat_template_kwargs.enable_thinking=False (Qwen3 skips <think>).
-- Strips <think>...</think> and ``` fences, takes the outermost {...}.
+- Reads only choices[0].message.content; the separate "reasoning" field is ignored.
+  Content is stripped (it starts with blank lines), then <think>...</think> and
+  ``` fences are removed and the outermost {...} is parsed.
+- Thinking tokens count against max_tokens, so keep the default 4000 for extraction.
+  finish_reason "length" is a failed call (content may be empty): returns an error.
 - On parse failure, retries once with the bad output and a "Return only the JSON object" turn.
 - Never raises for model trouble (unreachable, HTTP error, truncated, bad JSON):
   returns {"error": "..."} instead.
@@ -55,13 +59,11 @@ def _post(messages, max_tokens):
         content, finish = choice["message"]["content"], choice["finish_reason"]
     except (ValueError, KeyError, IndexError, TypeError) as e:
         raise _BadResponse(f"{type(e).__name__}: {e}; body {raw[:200]!r}") from None
-    if not isinstance(content, str):
-        raise _BadResponse(f"message.content is {type(content).__name__}, expected str")
     return content, finish
 
 
 def _extract(text):
-    text = text.rsplit("</think>", 1)[-1]
+    text = text.strip().rsplit("</think>", 1)[-1]
     text = re.sub(r"```(?:json)?", "", text)
     start, end = text.find("{"), text.rfind("}")
     if start < 0 or end <= start:
@@ -72,7 +74,7 @@ def _extract(text):
     return obj
 
 
-def chat_json(system, user, *, mock, max_tokens=2048):
+def chat_json(system, user, *, mock, max_tokens=4000):
     if _config.MOCK:
         return copy.deepcopy(mock)
     messages = [{"role": "system", "content": system}, {"role": "user", "content": user}]
@@ -85,6 +87,8 @@ def chat_json(system, user, *, mock, max_tokens=2048):
             return {"error": f"bad model response from {_config.LLM_BASE_URL}: {e}"}
         if finish == "length":
             return {"error": f"model output truncated at max_tokens={max_tokens}"}
+        if not isinstance(content, str):
+            return {"error": f"bad model response: message.content is {type(content).__name__}, expected str"}
         try:
             return _extract(content)
         except ValueError:
@@ -106,7 +110,7 @@ def _selfcheck():
         + '\nReturn only JSON: {"skills": [{"skill_id": "<id>", "level": 1}]} with level 1 to 3.'
     )
     t0 = time.monotonic()
-    out = chat_json(system, skills_line, mock={"skills": []}, max_tokens=512)
+    out = chat_json(system, skills_line, mock={"skills": []})
     seconds = round(time.monotonic() - t0, 2)
     # Model boundary: skills may be missing
     ok = "error" not in out and isinstance(out.get("skills"), list)

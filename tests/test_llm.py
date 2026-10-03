@@ -16,6 +16,7 @@ BAD = "Sure! Here is the data you asked for."
     ('<think>reasoning with {braces}</think>{"a":1}', {"a": 1}),
     ('Here you go: {"a": 1} hope that helps', {"a": 1}),
     ('{"a":{"b":2}}', {"a": {"b": 2}}),
+    ('\n\n{"a": 1}\n', {"a": 1}),
 ])
 def test_extract_ok(text, expected):
     assert _llm._extract(text) == expected
@@ -37,7 +38,8 @@ def fake_llm(monkeypatch):
             state["requests"].append(json.loads(self.rfile.read(n)))
             status, content, finish = state["replies"].pop(0)
             payload = json.dumps(
-                {"choices": [{"message": {"content": content}, "finish_reason": finish}]}
+                {"choices": [{"message": {"content": content, "reasoning": '{"decoy": true}'},
+                              "finish_reason": finish}]}
             ).encode()
             self.send_response(status)
             self.send_header("Content-Length", str(len(payload)))
@@ -68,6 +70,7 @@ def test_good_reply(fake_llm):
     assert body["model"] == _config.LLM_MODEL
     assert body["temperature"] == 0
     assert body["chat_template_kwargs"]["enable_thinking"] is False
+    assert body["max_tokens"] == 4000
     assert [m["role"] for m in body["messages"]] == ["system", "user"]
 
 
@@ -98,6 +101,24 @@ def test_truncated_no_retry(fake_llm):
     out = _call()
     assert "max_tokens" in out["error"]
     assert len(fake_llm["requests"]) == 1
+
+
+def test_leading_newlines_and_reasoning_ignored(fake_llm):
+    fake_llm["replies"] = [(200, '\n\n{"a": 1}', "stop")]
+    assert _call() == {"a": 1}
+
+
+@pytest.mark.parametrize("content", ["", None])
+def test_truncated_empty_content(fake_llm, content):
+    fake_llm["replies"] = [(200, content, "length")]
+    out = _call()
+    assert "max_tokens" in out["error"]
+    assert len(fake_llm["requests"]) == 1
+
+
+def test_null_content_not_truncated(fake_llm):
+    fake_llm["replies"] = [(200, None, "stop")]
+    assert "message.content" in _call()["error"]
 
 
 def test_closed_port(monkeypatch):
