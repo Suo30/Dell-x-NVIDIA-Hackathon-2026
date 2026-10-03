@@ -1,0 +1,5 @@
+# Optional, laptops only. Never needed on the box or in the sandbox.
+#   pip install -r requirements-dev.txt
+-r requirements.txt
+pytest==9.1.1     # unit tests, e.g. tests/test_match.py for _match.py fixtures
+ruff==0.16.10     # lint and format: ruff check tools scripts

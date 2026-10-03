@@ -47,7 +47,7 @@ Tokens are entered with `read -rs` so they are never echoed or written to histor
 ```sh
 printf 'Bot token: ';  read -rs SLACK_BOT_TOKEN; echo; export SLACK_BOT_TOKEN   # TODO(verify): variable name nemoclaw reads
 printf 'App token: ';  read -rs SLACK_APP_TOKEN; echo; export SLACK_APP_TOKEN   # TODO(verify): variable name nemoclaw reads
-export SLACK_ALLOWED_USERS="U0AAAAAAA,U0BBBBBBB"   # member IDs from (a).7; TODO(verify): separator format
+export SLACK_ALLOWED_USERS="U0C6MD4RQJG,U0C7C2J0ZA4, U0C629WDZJT, U0C6BEMTC2F, U0C6CC00W85"   # member IDs from (a).7; TODO(verify): separator format
 export NEMOCLAW_LOCAL_INFERENCE_TIMEOUT=600
 nemoclaw onboard
 ```

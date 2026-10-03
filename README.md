@@ -20,7 +20,8 @@ ssh -L 8000:127.0.0.1:8000 dell@172.20.65.171
 bash tests/smoke.sh                        # Windows: run from Git Bash
 ```
 
-- Python 3 standard library only. No `pip install`.
+- Python 3.10+. Core tools are standard library only; `pip install -r requirements.txt` adds `pypdf` for PDF resumes (optional).
+  Optional dev tools for laptops: `pip install -r requirements-dev.txt` (pytest, ruff).
 - Every tool: `python tools/<name>.py --help`. Each prints exactly one JSON object and exits 0.
   Wrap `main()` with `_cli.run(main)` and return a dict; errors become `{"error": "..."}` automatically.
 - Settings come from `tools/_config.py` (reads `.env`, then env vars).
