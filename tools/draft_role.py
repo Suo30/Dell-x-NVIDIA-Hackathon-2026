@@ -24,15 +24,17 @@ Return only JSON:
                                "why": str}],
              "seniority": str or null, "team_context": str or null, "timeline": str or null}}
 Rules:
-- description: 80 to 150 words, plain language, what the person will build and own. No team size,
-  no timeline, nothing from team_context.
+- description: 80 to 150 words, plain language, only the work: what the person will build and own,
+  and with which tools. No logistics: never mention team size, engineers, designers, start date,
+  months, timeline, location or pay; those have their own fields.
 - location: "City, ST (onsite|hybrid|remote)" when known.
 - sponsorship: true if they said they can sponsor visas, false if they cannot, null if not discussed.
 - clearance: "us_person" if US citizenship or export control is required, "clearance" if a security
   clearance is required, otherwise "none".
 - pay: as stated, like "35-45 USD/hour" or "90000-110000 USD/year"; null if not stated.
 - requirements: 3 to 8 items. skill_id only from the list below. Use the most specific skill the
-  manager named (MySQL, not SQL). At most 4 "must" (cannot do the job without it); the rest "nice".
+  manager named (MySQL, not SQL). "must" only for skills the manager named or that the described
+  work cannot be done without, at most 4. Skills you add beyond what was said are "nice" at level 1.
   level: 1 = course or small project, 2 = used in a job or substantial project, 3 = designed, led or
   owned it. why: one short phrase tied to the conversation.
 - seniority: one of co-op, intern, new grad, experienced.
