@@ -279,3 +279,39 @@ def test_fixture_jobs_vs_jordan(profile, jobs):
     for o in out:
         assert set(o) == {"score", "route", "eager", "detail"}
         assert set(o["detail"]) == {"requirements", "flags", "pref_note", "gaps_text"}
+
+
+@pytest.mark.parametrize("stored,expected", [(None, None), (0, False), (1, True)])
+def test_job_from_row(tmp_db, profile, jobs, stored, expected):
+    import _db
+
+    conn = _db.connect()
+    try:
+        conn.execute(
+            "INSERT INTO jobs (id, source, company, title, location, requirements_json, sponsorship, "
+            "clearance, pay, paid, first_seen) VALUES ('test:acme:1', 'test', 'Acme', 'T', 'Boston, MA', "
+            "?, ?, 'none', '35-45 USD/hour', 1, 'now')",
+            (json.dumps(jobs[0]["requirements"]), stored),
+        )
+        row = conn.execute("SELECT * FROM jobs").fetchone()
+    finally:
+        conn.close()
+    job = _match.job_from_row(row)
+    assert job == {"id": "test:acme:1", "requirements": jobs[0]["requirements"], "sponsorship": expected,
+                   "clearance": "none", "location": "Boston, MA", "company": "Acme",
+                   "pay": "35-45 USD/hour", "paid": 1}
+    assert job["sponsorship"] is expected
+    _match.evaluate(job, profile)
+
+
+def test_job_from_row_unextracted_raises(tmp_db):
+    import _db
+
+    conn = _db.connect()
+    try:
+        conn.execute("INSERT INTO jobs (id, source, first_seen) VALUES ('test:x:1', 'test', 'now')")
+        row = conn.execute("SELECT * FROM jobs").fetchone()
+    finally:
+        conn.close()
+    with pytest.raises(RuntimeError, match="test:x:1"):
+        _match.job_from_row(row)
