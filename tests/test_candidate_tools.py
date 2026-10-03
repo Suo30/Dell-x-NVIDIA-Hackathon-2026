@@ -187,6 +187,19 @@ def test_hourly_text(pay, expected):
     assert extract_reqs._hourly_text(pay) == expected
 
 
+def test_extract_soft_skills_are_nice_level_1(tmp_db, monkeypatch):
+    _insert_job("greenhouse:acme:1", "greenhouse")
+    reply = {"requirements": [
+        {"skill_id": "python", "level": 2, "importance": "must", "why": "scripts", "evidence_text": "Python"},
+        {"skill_id": "teamwork", "level": 2, "importance": "must", "why": "team", "evidence_text": "Team player"},
+    ], "sponsorship": None, "clearance": "none", "pay": None}
+    monkeypatch.setattr(_llm, "chat_json", lambda *a, **k: reply)
+    _run(monkeypatch, extract_reqs, "--pending")
+    row = _rows(tmp_db, "SELECT requirements_json FROM jobs WHERE id = 'greenhouse:acme:1'")[0]
+    reqs = {r["skill_id"]: (r["level"], r["importance"]) for r in json.loads(row["requirements_json"])}
+    assert reqs == {"python": (2, "must"), "teamwork": (1, "nice")}
+
+
 def test_extract_sets_columns(tmp_db, monkeypatch):
     _insert_job("greenhouse:acme:1", "greenhouse")
     calls = []

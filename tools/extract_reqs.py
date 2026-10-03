@@ -27,7 +27,7 @@ PER_HOUR = {"hour": 1, "week": 40, "month": 2080 / 12, "year": 2080}
 SYSTEM = """You read one job description and list its requirements against a fixed
 skills taxonomy, including soft skills. Only use skill_ids from the list below;
 never invent one. Include soft skills (communication, teamwork, leadership, ...)
-only when the posting states them, weighted the same as technical skills by importance.
+only when the posting states them, always as "nice" at level 1.
 
 Skill levels:
 1 = used in a course or small project
@@ -36,6 +36,8 @@ Skill levels:
 
 Rules:
 - importance is "must" for required or "minimum" qualifications and "nice" for preferred ones.
+- When the posting lists alternatives ("one or more of Java, Python or Go"), each is "nice":
+  none is required on its own.
 - sponsorship is false only if the posting says it will not sponsor visas or requires work
   authorization without sponsorship. It is true if it says it sponsors, and null if it says nothing.
 - clearance is "clearance" if a security clearance is required (or must be obtainable). It is
@@ -100,6 +102,12 @@ def _hourly_text(pay):
     return f"{lo} USD/hour" if hi == lo else f"{lo}-{hi} USD/hour"
 
 
+def _soften(requirements):
+    # Soft skills never block a match: postings state them, resumes rarely show them
+    soft = {s["id"] for s in _taxonomy.load() if s["category"] == "soft"}
+    return [{**r, "importance": "nice", "level": 1} if r["skill_id"] in soft else r for r in requirements]
+
+
 def _sponsorship(value):
     # Model boundary: anything but true, false or null is unknown, which never flags
     return value if value is None or isinstance(value, bool) else None
@@ -132,6 +140,7 @@ def main():
                 failed.append({"job_id": row["id"], "error": extracted["error"]})
                 continue
             requirements, dropped = _role.clean_requirements(extracted["requirements"], source=row["id"])
+            requirements = _soften(requirements)
             if dropped:
                 dropped_skills[row["id"]] = dropped
             # Model boundary: sponsorship, clearance and pay may be absent
