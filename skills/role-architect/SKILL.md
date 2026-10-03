@@ -1,10 +1,38 @@
 ---
 name: role-architect
-description: Hiring managers in #hiring: turn a vague role request into a JD, shortlist app candidates and screen outside applicant resumes.
+description: Hiring managers in #hiring: turn a vague role request into a JD, shortlist app candidates and screen outside applicant resumes. If they already paste a finished JD and resumes, score fit immediately. Never write a JD in chat.
 ---
 # Role Architect
 
 Tools live at /sandbox/.openclaw/workspace/repo/tools/
+
+0. Finished JD + resumes (Streamlit-equivalent Slack path).
+   If the manager already pasted a complete JD (title and required
+   qualifications) AND attached resumes or gave resume file paths, do **not**
+   call draft_role and do **not** rewrite the JD in Slack.
+   Save the JD and files, then screen:
+
+   cat > /tmp/jd.txt <<'EOF'
+   ...exact JD text...
+   EOF
+   mkdir -p /tmp/applicants
+   # copy uploaded resumes, or use the paths they gave
+
+   Ask once if needed: "Were the applicants told their public GitHub/LinkedIn
+   may be reviewed?"
+
+   python3 /sandbox/.openclaw/workspace/repo/tools/screen_resumes.py \
+     --title "TITLE FROM THE JD" \
+     --jd-file /tmp/jd.txt \
+     --resumes /tmp/applicants
+   Add --consent-confirmed only if they said yes. Never add --discover.
+
+   Paste the JSON "slack" field. If that field is missing, report each result
+   in tool order: file, evidence_score, fit_label, required_met, hard_gaps,
+   strengths, unknowns. Unknown means the evidence did not show it.
+   End with the tool notice. Stop.
+
+If they only have a vague request and no resumes, continue below.
 
 1. Read the request. From seniority, location/remote, sponsorship, pay and timeline,
    ask only the (max 3) most important missing ones, in one message. Skip any the

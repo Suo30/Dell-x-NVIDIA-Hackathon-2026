@@ -121,3 +121,31 @@ def test_title_mode_routes_to_human_review_when_model_unavailable(resumes, mock_
     assert out["rubric_source"] == "unavailable"
     assert out["shortlist_count"] == 0
     assert {r["route"] for r in out["results"]} == {"human_review_required"}
+    assert "Fit review: Backend" in out["slack"]
+    assert out["notice"] in out["slack"]
+
+
+def test_slack_report_lists_scores_and_gaps():
+    text = screen_resumes.slack_report(
+        "Senior Applied AI Scientist",
+        [
+            {
+                "file": "sneha.pdf",
+                "rank": 1,
+                "top_30_percent": True,
+                "evidence_score": 95.0,
+                "coverage": 70.0,
+                "fit_label": "strong_role_alignment",
+                "required_met": "4/4",
+                "hard_gaps": [],
+                "summary": "ok",
+                "strengths": ["RAG"],
+                "unknowns": [],
+            }
+        ],
+        "Decision support only.",
+    )
+    assert "*Fit review: Senior Applied AI Scientist*" in text
+    assert "95.0/100" in text
+    assert "Strong demonstrated alignment" in text
+    assert "Decision support only." in text
