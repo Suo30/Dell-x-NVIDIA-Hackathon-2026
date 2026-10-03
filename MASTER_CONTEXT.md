@@ -83,6 +83,7 @@ repo/
   .gitignore                 .env, *.db, __pycache__, work/
   requirements.txt           pypdf only (optional, PDF resumes); core is stdlib only
   requirements-dev.txt       pytest, ruff; laptops only
+  requirements-recruit.txt   fastapi, streamlit, pydantic, python-docx; recruit_assistant only, not the sandbox
   pytest.ini                 testpaths=tests; live model tests excluded unless -m live
   .gitattributes             forces LF on .sh/.py/.md so Windows checkouts run on the box
   db/schema.sql
@@ -111,6 +112,7 @@ repo/
     approve_role.py          employer
     show_role.py             employer
     match_candidates.py      employer
+    screen_resumes.py        employer: outside applicants' resumes via recruit_assistant (needs requirements-recruit.txt)
     tailor.py                stretch only
   data/
     skills.json
@@ -129,6 +131,9 @@ repo/
     test_*.py                unit tests per shared module; test_llm_live.py needs the tunnel
     fixtures/                resume.txt, conversation.txt (smoke.sh); profile.json (Jordan = c001),
                              jobs.json (7 test jobs covering match, flags and hidden)
+  recruit_assistant/         B2B evidence-first resume screener (from b2b-sneha): JD + 1-20 resumes ->
+                             rubric, GitHub/LinkedIn evidence, top-30% shortlist. Model calls via tools/_llm.py
+  streamlit_app.py           local UI for recruit_assistant (laptop/box host, not the Slack channel)
   work/                      gitignored scratch: resumes and conversations the agent writes at runtime
 ```
 
@@ -348,7 +353,22 @@ show_role.py --role ID
     -> {"role_id", "public", "private", "status"}
 match_candidates.py --role ID [--limit 10]
     -> {"shortlist": [{"candidate_id", "name", "score", "route", "flags", "gaps_text", "top_evidence"}]}
+screen_resumes.py --role ID --resumes PATH [PATH ...] [--consent-confirmed] [--discover]
+screen_resumes.py --title "X" --jd-file PATH --resumes PATH [PATH ...] [--consent-confirmed] [--discover]
+    -> {"intake_id", "run_id", "role_id", "rubric_source": "role|model|unavailable", "shortlist_count",
+        "results": [{"file", "resume_id", "status", "route", "rank", "top_30_percent", "evidence_score",
+                     "coverage", "fit_label", "required_met", "hard_gaps", "summary", "strengths",
+                     "unknowns", "sources": [{"platform", "url", "status"}]}],
+        "notice"}
 ```
+
+`screen_resumes` covers outside applicants to the public JD (section 2), who have resumes but no app profile.
+With `--role` (approved roles only) the rubric is built in code from `private.requirements`: one criterion per
+skill, `required` = must, weights must 2 / nice 1 normalized to 100. The model assesses each criterion against
+the resume; code weights, scores and picks the top 30% (ties kept). Its scores are not comparable with
+`match_candidates` scores; present the two lists separately. Without `--consent-confirmed` only resume text is
+used (no web calls); with it, GitHub/LinkedIn links written in the resume are read. `--discover` (web search
+for unlinked profiles) is off in the demo. Results are stored in `work/recruit/jobs/`, not in SQLite.
 
 Clarifying questions live in the `role-architect` skill instructions, not in a tool. The agent asks up to 3 questions (seniority, location/remote, sponsorship, pay, timeline), writes the whole exchange to a file, then calls `draft_role.py`.
 

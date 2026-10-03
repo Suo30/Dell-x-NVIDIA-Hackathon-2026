@@ -1,0 +1,15 @@
+# recruit_assistant (B2B evidence-first resume screener): FastAPI + Streamlit app.
+# Not needed by tools/ or the sandbox agent; the core stays stdlib only (requirements.txt).
+#   pip install -r requirements-recruit.txt
+-r requirements.txt
+fastapi>=0.115.0
+uvicorn[standard]>=0.32.0
+python-multipart>=0.0.12
+pydantic>=2.9.0
+python-docx>=1.1.2
+streamlit>=1.40.0
+# tests/test_workflow.py and scripts/generate_edge_case_resumes.py
+pytest>=8.3.0
+httpx>=0.28.0
+reportlab>=4.2.0
+Pillow>=10.4.0

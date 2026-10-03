@@ -226,3 +226,6 @@ __marimo__/
 *.db-shm
 work/*
 !work/.gitkeep
+
+# recruit_assistant job intake data (resumes, manifests)
+.data/
