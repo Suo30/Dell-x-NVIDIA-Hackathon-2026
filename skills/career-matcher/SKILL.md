@@ -1,68 +1,30 @@
 ---
 name: career-matcher
-description: Candidate side. Use when a student (usually in #students) shares a resume or resume text, tells you about their skills, visa, location or company preferences, asks for job matches, or asks to apply to a job.
+description: Students in #students: read a resume, learn preferences from chat, match to live and internal jobs, flag sponsorship issues, apply on request.
 ---
-
 # Career Matcher
 
-You build a student's full profile from their resume plus what they tell you, then return job
-matches scored by code. All commands run from the repo root and print one JSON object. If the JSON has
-`"error"`, tell the student in one sentence what failed and stop; never invent jobs, scores or links.
+Tools live at /sandbox/.openclaw/workspace/repo/tools/
 
-## 1. Profile
-
-**Resume.** If the student uploaded a file, read its text. If they pasted it, use the pasted text.
-Save the text to `work/resume-<unix time>.txt` and run:
-
-```
-python3 tools/ingest_profile.py --name "<name>" --text-file work/resume-<...>.txt --notes "<anything else they said in the same message>"
-```
-
-Remember `candidate_id` for the rest of the conversation. Reply with the skills found (name and level)
-in one short list, and ask: "Anything not on your resume I should know? Skills, visa or sponsorship,
-location, start date, companies you love or would avoid."
-
-**Anything they add later**, one statement per call:
-
-```
-python3 tools/update_profile.py --candidate <candidate_id> --note "<their words, verbatim>"
-```
-
-Confirm each change in one line (e.g. "Noted: Acme only for a strong offer").
-
-## 2. Matches
-
-When they ask for jobs, or right after the profile is built:
-
-```
-python3 tools/match_jobs.py --candidate <candidate_id> --limit 5
-```
-
-Present results grouped by `route`:
-- **match**: company, title, score, link, the strongest `top_evidence`.
-- **stretch**: same, plus the `gaps_text` and one concrete way to close the gap.
-- **review**: name the flag in plain words. For `sponsorship`: "this posting says it does not sponsor
-  visas, so applying would likely be wasted unless that changes." Include any `pref_note`.
-
-Internal roles (`job_id` starting with `internal:`) were posted through this office; say so.
-Gaps are "the evidence did not show X", never "you lack X".
-
-## 3. Apply
-
-Only when the student says to apply (e.g. "apply to 1 and 3"):
-
-```
-python3 tools/apply.py --candidate <candidate_id> --job <job_id>
-```
-
-Confirm each application. Make clear it is an application inside the career office system that the
-employer will see; nothing was submitted to the company's external site.
-
-## Refreshing jobs (only if the student or staff asks for new postings)
-
-```
-python3 tools/fetch_jobs.py --source all
-python3 tools/extract_reqs.py --pending --limit 20
-```
-
-This can take a few minutes; say so before running. If fetching fails, retry with `--offline`.
+1. New student: get resume text (pasted, or an uploaded file). Write pasted text to
+   /tmp/resume-SLUG.txt, then run:
+   python3 /sandbox/.openclaw/workspace/repo/tools/ingest_profile.py --name "NAME" --text-file PATH
+   Tell them their candidate_id and how many skills were found. Ask (max 3, one
+   message) for what is missing: location, remote, visa or sponsorship, start date,
+   companies they care about.
+2. Anything they say later that is not on the resume (skills, stances, constraints):
+   python3 /sandbox/.openclaw/workspace/repo/tools/update_profile.py --candidate ID --note "THEIR WORDS, VERBATIM"
+   Say what changed.
+3. Matches:
+   python3 /sandbox/.openclaw/workspace/repo/tools/match_jobs.py --candidate ID --limit 5
+   Run fetch_jobs.py, then extract_reqs.py --pending --limit 20, only if jobs are
+   empty or they ask to refresh. Both are slow, so warn them first.
+4. Present by route, in tool order:
+   - match: company, title, score, one evidence line, url
+   - stretch: same, plus the closable gap and what would close it
+   - review: state the flag plainly (for example "this posting says no sponsorship
+     and you need it on F-1"). Let them decide.
+5. Apply only when they say yes to a specific job:
+   python3 /sandbox/.openclaw/workspace/repo/tools/apply.py --candidate ID --job JOB_ID
+   Then say: "Application record created in the app. Nothing was sent to the
+   employer's own system."

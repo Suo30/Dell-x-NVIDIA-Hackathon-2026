@@ -1,0 +1,22 @@
+# Binary path must match what `openshell term` reports for the first blocked request; fix after the first test.
+preset:
+  name: job-boards
+  description: "Greenhouse and Lever public job APIs"
+network_policies:
+  job-boards:
+    name: job-boards
+    endpoints:
+      - host: boards-api.greenhouse.io
+        port: 443
+        protocol: rest
+        enforcement: enforce
+        rules:
+          - allow: { method: GET, path: "/**" }
+      - host: api.lever.co
+        port: 443
+        protocol: rest
+        enforcement: enforce
+        rules:
+          - allow: { method: GET, path: "/**" }
+    binaries:
+      - { path: /usr/bin/python3 }

@@ -1,0 +1,16 @@
+# Runtime dependencies for tools/ and scripts/. Python >= 3.10
+# (box: python3 in the sandbox, A confirms; laptops tested on 3.12).
+#   pip install -r requirements.txt
+#
+# Core stays standard library only (MASTER_CONTEXT section 4): the sandbox may block
+# PyPI, so the demo must run with nothing installed. Covered by the stdlib:
+#   HTTP to the model and ATS APIs -> urllib.request
+#   JSON                            -> json
+#   database                        -> sqlite3
+#   HTML-escaped Greenhouse text    -> html, html.parser
+#   CLI args                        -> argparse
+# Not needed: numpy, pandas, requests, openai, python-dotenv, pydantic, bs4, faker.
+
+# Optional: text from uploaded PDF resumes (ingest_profile.py). Import it inside
+# try/except ImportError and fall back to pasted resume text when it's missing.
+pypdf==6.19.0

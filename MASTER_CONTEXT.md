@@ -81,6 +81,8 @@ repo/
   README.md                  setup, run, demo steps (written 17:15)
   .env.example               LLM_BASE_URL, LLM_MODEL, DB_PATH, DATA_DIR, MOCK_LLM
   .gitignore                 .env, *.db, __pycache__, work/
+  requirements.txt           pypdf only (optional, PDF resumes); core is stdlib only
+  requirements-dev.txt       pytest, ruff; laptops only
   .gitattributes             forces LF on .sh/.py/.md so Windows checkouts run on the box
   db/schema.sql
   skills/
