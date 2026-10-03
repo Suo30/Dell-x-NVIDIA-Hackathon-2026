@@ -32,7 +32,7 @@ class ToolError(Exception):
 
 
 def _tool(script, *args):
-    env = {**os.environ, "DB_PATH": str(CHECK), "MOCK_LLM": "0"}
+    env = {**os.environ, "DB_PATH": str(CHECK), "MOCK_LLM": "0", "PYTHONIOENCODING": "utf-8"}
     try:
         proc = subprocess.run([sys.executable, script, *args], cwd=REPO, env=env, check=False,
                               capture_output=True, text=True, encoding="utf-8", timeout=TOOL_TIMEOUT)
