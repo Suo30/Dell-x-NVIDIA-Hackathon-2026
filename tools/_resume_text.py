@@ -17,7 +17,10 @@ def _plain(path):
         return path.read_text(encoding="utf-8-sig")
     except UnicodeDecodeError:
         # User file boundary: Windows editors often save cp1252
-        return path.read_text(encoding="cp1252")
+        try:
+            return path.read_text(encoding="cp1252")
+        except UnicodeDecodeError:
+            raise ValueError("cannot read the text (not UTF-8 or Windows-1252); paste the text") from None
 
 
 def _docx(path):
