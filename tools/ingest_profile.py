@@ -41,6 +41,8 @@ Return JSON only, this exact shape:
 }}
 Rules:
 - List each skill_id once, with the verbatim line that best shows it as evidence.
+- A specific tool also shows its general skill when both are listed: MySQL or PostgreSQL also give
+  sql, SolidWorks also gives cad. Add both, with the same level and evidence line.
 - source is chat when the skill appears only in ADDITIONAL NOTES FROM CHAT; otherwise resume.
 - F-1 or J-1 students need sponsorship and are not US persons; US citizens and green card holders are US persons.
 - If a fact is not stated, use null, never guess."""
