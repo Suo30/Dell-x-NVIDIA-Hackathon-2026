@@ -42,7 +42,7 @@ echo "python: $PY ($("$PY" --version 2>&1))"
 step "python >= 3.10"            "$PY" -c 'import sys; sys.exit(sys.version_info < (3, 10))'
 step "pytest installed"          "$PY" -c 'import pytest'
 step "unit tests (pytest -q)"    "$PY" -m pytest -q
-step "smoke (MOCK_LLM=1)"        bash tests/smoke.sh
+step "smoke (MOCK_LLM=1, STRICT)" env STRICT=1 bash tests/smoke.sh
 step "skill files lint"          "$PY" scripts/check_skills.py
 step "_llm self-check (mock)"    mock_selfcheck
 step "candidates match generator" "$PY" -m pytest -q tests/test_seed.py -k committed_files
