@@ -11,7 +11,8 @@ cd "$(git rev-parse --show-toplevel)"
 
 # 0. Everything we deploy must be committed on the checked-out branch
 for f in infra/sandbox.env infra/job-boards.yaml prompts/system.md \
-         skills/role-architect/SKILL.md skills/career-matcher/SKILL.md; do
+         skills/role-architect/SKILL.md skills/career-matcher/SKILL.md \
+         skills/resume-screener/SKILL.md; do
   git cat-file -e "HEAD:$f" 2>/dev/null || { echo "ERROR: $f is not committed on this branch"; exit 1; }
 done
 echo "branch: $(git rev-parse --abbrev-ref HEAD)   commit: $(git rev-parse --short HEAD)"
@@ -34,8 +35,8 @@ nemoclaw "$SB" exec -- sh -c "
   mkdir -p $W/repo $W/skills
   tar -xzf $REMOTE -C $W/repo
   rm -f $REMOTE
-  rm -rf $W/skills/role-architect $W/skills/career-matcher
-  cp -r $W/repo/skills/role-architect $W/repo/skills/career-matcher $W/skills/
+  rm -rf $W/skills/role-architect $W/skills/career-matcher $W/skills/resume-screener
+  cp -r $W/repo/skills/role-architect $W/repo/skills/career-matcher $W/repo/skills/resume-screener $W/skills/
   cp $W/repo/prompts/system.md $W/AGENTS.md
   cp $W/repo/infra/sandbox.env $W/repo/.env
   echo 'installed .env:'; cat $W/repo/.env

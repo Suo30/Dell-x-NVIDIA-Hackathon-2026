@@ -28,7 +28,7 @@ else
 fi
 if [ -d "$REPO/tools" ]; then pass "repo present at $REPO"; else fail "repo missing: no $REPO/tools/"; fi
 if [ -f "$REPO/.env" ]; then pass "$REPO/.env present"; else warn "$REPO/.env missing; tools fall back to defaults"; fi
-for s in role-architect career-matcher; do
+for s in role-architect career-matcher resume-screener; do
   d="$WORKSPACE/skills/$s"
   if [ -L "$d" ] || [ -L "$d/SKILL.md" ]; then
     fail "$d is a symlink; OpenClaw rejects it, rerun deploy_box.sh"

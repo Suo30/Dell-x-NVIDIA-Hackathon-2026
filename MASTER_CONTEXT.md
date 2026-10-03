@@ -57,6 +57,7 @@ Slack (#hiring, #students)
    OpenClaw agent (one agent, in NemoClaw sandbox)
         |-- skill: role-architect   (employer flows)
         |-- skill: career-matcher   (candidate flows)
+        |-- skill: resume-screener  (finished JD + applicant resumes -> scores)
         |
    tools/*.py  (stdlib Python CLIs, JSON on stdout)
         |-- model calls: extraction only (text -> taxonomy-mapped JSON)
@@ -90,6 +91,7 @@ repo/
   skills/
     role-architect/SKILL.md
     career-matcher/SKILL.md
+    resume-screener/SKILL.md
   prompts/
     system.md                agent system prompt
   tools/

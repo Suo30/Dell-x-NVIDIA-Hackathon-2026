@@ -7,7 +7,7 @@ set -eu
 WORKSPACE="${WORKSPACE:-/sandbox/.openclaw/workspace}"
 SRC="$(cd "$(dirname "$0")/.." && pwd -P)"
 DEST="$WORKSPACE/repo"
-SKILL_NAMES="role-architect career-matcher"
+SKILL_NAMES="role-architect career-matcher resume-screener"
 
 die() { echo "deploy_box: ERROR: $*" >&2; exit 1; }
 
