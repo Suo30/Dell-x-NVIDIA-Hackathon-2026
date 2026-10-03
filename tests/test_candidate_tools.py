@@ -200,6 +200,19 @@ def test_extract_soft_skills_are_nice_level_1(tmp_db, monkeypatch):
     assert reqs == {"python": (2, "must"), "teamwork": (1, "nice")}
 
 
+@pytest.mark.parametrize("value,evidence,expected", [
+    ("us_person", "Must be a US citizen or permanent resident.", "us_person"),
+    ("clearance", "Active US security clearance or eligibility to obtain one.", "clearance"),
+    ("us_person", "To conform to US export control regulations, some of these roles may require...", "none"),
+    ("us_person", None, "none"),
+    ("clearance", "  ", "none"),
+    ("none", "Must be a US citizen.", "none"),
+    ("secret", "Must hold a secret clearance.", "none"),
+])
+def test_clearance_needs_a_definite_sentence(value, evidence, expected):
+    assert extract_reqs._clearance(value, evidence) == expected
+
+
 def test_extract_sets_columns(tmp_db, monkeypatch):
     _insert_job("greenhouse:acme:1", "greenhouse")
     calls = []
@@ -214,6 +227,7 @@ def test_extract_sets_columns(tmp_db, monkeypatch):
             ],
             "sponsorship": None,
             "clearance": "us_person",
+            "clearance_evidence": "Must be a US person due to ITAR.",
             "pay": {"min": 1575, "max": 1950, "period": "week"},
         }
 

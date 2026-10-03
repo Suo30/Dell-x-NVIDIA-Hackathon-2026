@@ -43,7 +43,8 @@ Rules:
 - clearance is "clearance" if a security clearance is required (or must be obtainable). It is
   "us_person" if US citizenship, US person status or export control (ITAR/EAR) is required.
   Otherwise "none". Count only what this role requires: equal-opportunity text and
-  "some roles may require" boilerplate do not count.
+  "some roles may require" boilerplate do not count. clearance_evidence is the verbatim sentence
+  that states the requirement, or null when clearance is "none".
 - pay is the stated pay in USD with its period, or null if not stated. Never guess.
 
 Taxonomy:
@@ -56,6 +57,7 @@ Return JSON only, this exact shape:
  ],
  "sponsorship": true | false | null,
  "clearance": "none" | "us_person" | "clearance",
+ "clearance_evidence": "verbatim sentence" | null,
  "pay": {{"min": number, "max": number or null, "period": "hour|week|month|year"}} or null}}
 If the posting states nothing matchable, return "requirements": []."""
 
@@ -113,9 +115,14 @@ def _sponsorship(value):
     return value if value is None or isinstance(value, bool) else None
 
 
-def _clearance(value):
-    # Model boundary: an unknown clearance value counts as none
-    return value if isinstance(value, str) and value in _role.CLEARANCE else "none"
+HEDGES = ("may require", "might require", "some roles", "some of these roles")
+
+
+def _clearance(value, evidence):
+    # Model boundary: unknown values count as none; a requirement needs a definite sentence from the posting
+    if value not in ("us_person", "clearance") or not isinstance(evidence, str) or not evidence.strip():
+        return "none"
+    return "none" if any(h in evidence.lower() for h in HEDGES) else value
 
 
 def main():
@@ -149,7 +156,7 @@ def main():
                 "UPDATE jobs SET requirements_json=?, sponsorship=?, clearance=?, pay=? WHERE id=?",
                 (json.dumps(requirements, ensure_ascii=False),
                  None if sponsorship is None else int(sponsorship),
-                 _clearance(extracted.get("clearance")),
+                 _clearance(extracted.get("clearance"), extracted.get("clearance_evidence")),
                  _hourly_text(extracted.get("pay")),
                  row["id"]),
             )
