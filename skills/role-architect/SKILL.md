@@ -16,7 +16,7 @@ Tools live at /sandbox/.openclaw/workspace/repo/tools/
    ...exact JD text...
    EOF
    mkdir -p /tmp/applicants
-   # copy uploaded resumes, or use the paths they gave
+   # attachments: download-file each fileId (as in step 8), or use the paths they gave
 
    Ask once if needed: "Were the applicants told their public GitHub/LinkedIn
    may be reviewed?"
@@ -36,7 +36,8 @@ If they only have a vague request and no resumes, continue below.
 
 1. Read the request. From seniority, location/remote, sponsorship, pay and timeline,
    ask only the (max 3) most important missing ones, in one message. Skip any the
-   manager already answered.
+   manager already answered. Always ask for pay if it is missing: students' "only
+   for a strong offer" stances depend on it.
 2. Write the whole exchange to a file with exec:
    cat > /tmp/conv-SLUG.txt <<'EOF'
    MANAGER: ...
@@ -50,6 +51,7 @@ If they only have a vague request and no resumes, continue below.
    Levels: 1 = used in a course or small project, 2 = used in a job or substantial
    project, 3 = designed, led or owned it.
 5. If they want changes, append them to the conversation file and run draft_role again.
+   Each draft_role run creates a new role_id. Always use the role_id from the latest output.
 6. On approval run:
    python3 /sandbox/.openclaw/workspace/repo/tools/approve_role.py --role ROLE_ID
    then
@@ -57,10 +59,11 @@ If they only have a vague request and no resumes, continue below.
 7. Present the shortlist in tool order. Per candidate: name, score, route,
    top_evidence, gaps_text, flags. End with: "This is a shortlist for your review.
    Nothing is decided." Say the role is now visible to students.
-8. Outside applicants: anyone can apply to the public JD. When the manager shares
-   applicant resumes, save uploaded files (or pasted text as NAME.txt) into
-   /tmp/applicants-ROLE_ID/. Ask once: "Were the applicants told their public
-   GitHub/LinkedIn may be reviewed?" Then run:
+8. Outside applicants: anyone can apply to the public JD. For attached resumes,
+   call message download-file for each fileId and copy each returned path into
+   /tmp/applicants-ROLE_ID/ with exec. If a download fails, ask for that resume as
+   pasted text and save it as NAME.txt. Never guess file contents. Ask once: "Were
+   the applicants told their public GitHub/LinkedIn may be reviewed?" Then run:
    python3 /sandbox/.openclaw/workspace/repo/tools/screen_resumes.py --role ROLE_ID --resumes /tmp/applicants-ROLE_ID
    Add --consent-confirmed only if the manager said yes. Never add --discover.
 9. Present results in tool order. Per applicant: file, rank, evidence_score,
