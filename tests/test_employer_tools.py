@@ -109,6 +109,17 @@ def test_draft_drops_unknown_skill_and_reports_it(tmp_db, monkeypatch):
     assert [r["skill_id"] for r in out["private"]["requirements"]] == ["react-native", "mysql", "python", "git"]
 
 
+def test_draft_demotes_must_the_manager_never_named(tmp_db, monkeypatch):
+    reply = json.loads(json.dumps(draft_role._MOCK))
+    reply["private"]["requirements"] += [
+        {"skill_id": "rest-api", "level": 2, "importance": "must", "why": "connects app to backend"},
+        {"skill_id": "MY SQL", "level": 2, "importance": "must", "why": "duplicate alias of a named skill"},
+    ]
+    _fake_llm(monkeypatch, reply)
+    reqs = {r["skill_id"]: r["importance"] for r in _draft(monkeypatch)["private"]["requirements"]}
+    assert reqs == {"react-native": "must", "mysql": "must", "python": "nice", "git": "nice", "rest-api": "nice"}
+
+
 def test_draft_no_skills_returns_error(tmp_db, monkeypatch):
     reply = json.loads(json.dumps(draft_role._MOCK))
     reply["private"]["requirements"] = [{"skill_id": "COBOL", "level": 2, "importance": "must", "why": "x"}]

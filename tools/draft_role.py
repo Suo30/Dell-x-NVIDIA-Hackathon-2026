@@ -7,6 +7,7 @@ Owner: C
 """
 import argparse
 import json
+import re
 from pathlib import Path
 
 import _cli
@@ -70,6 +71,23 @@ _MOCK = {
 NO_SKILLS = "model found no taxonomy skills; ask the manager what the person will build"
 
 
+def _norm(text):
+    return " ".join(text.lower().replace("-", " ").replace("_", " ").split())
+
+
+def _named(skill_id, conversation):
+    skill = next(s for s in _taxonomy.load() if s["id"] == skill_id)
+    keys = {_norm(skill["id"]), _norm(skill["name"]), *(_norm(a) for a in skill["aliases"])}
+    return any(re.search(rf"(?<![a-z0-9+#]){re.escape(k)}(?![a-z0-9+#])", conversation) for k in keys)
+
+
+def _demote_unnamed(requirements, text):
+    # Model boundary: "must" needs the manager to have named the skill; anything the model added is "nice"
+    conversation = _norm(text)
+    return [{**r, "importance": "nice"} if r["importance"] == "must" and not _named(r["skill_id"], conversation)
+            else r for r in requirements]
+
+
 def _text(value):
     # Model boundary: free-text private fields are a string or None
     if not isinstance(value, str):
@@ -107,6 +125,7 @@ def main():
 
     public = _role.clean_public(out["public"], "draft")
     requirements, dropped = _role.clean_requirements(raw_private["requirements"], "draft")
+    requirements = _demote_unnamed(requirements, text)
     if not requirements:
         return {"error": NO_SKILLS, "dropped_skills": dropped}
     # Model boundary: optional text fields may be absent

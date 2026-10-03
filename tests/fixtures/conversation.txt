@@ -1,3 +1,3 @@
 manager: I need someone to build an app for our ops team.
 agent: Is this a co-op, new grad or experienced hire? Onsite, hybrid or remote? Can you sponsor visas?
-manager: Co-op starting January, hybrid in Boston, yes we can sponsor. Pay around 35-45 an hour. They'd own the mobile app and its MySQL backend; team is 2 engineers, no designer.
+manager: Co-op starting January, hybrid in Boston, yes we can sponsor. Pay around 35-45 an hour. They'd own the React Native app and its MySQL backend; team is 2 engineers, no designer.
