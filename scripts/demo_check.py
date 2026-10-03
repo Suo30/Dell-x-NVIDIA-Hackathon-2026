@@ -34,8 +34,8 @@ class ToolError(Exception):
 def _tool(script, *args):
     env = {**os.environ, "DB_PATH": str(CHECK), "MOCK_LLM": "0"}
     try:
-        proc = subprocess.run([sys.executable, script, *args], cwd=REPO, env=env, capture_output=True,
-                              text=True, encoding="utf-8", timeout=TOOL_TIMEOUT)
+        proc = subprocess.run([sys.executable, script, *args], cwd=REPO, env=env, check=False,
+                              capture_output=True, text=True, encoding="utf-8", timeout=TOOL_TIMEOUT)
     except subprocess.TimeoutExpired:
         raise ToolError(f"{script} timed out after {TOOL_TIMEOUT}s") from None
     # Subprocess boundary: a crashed tool prints no JSON
