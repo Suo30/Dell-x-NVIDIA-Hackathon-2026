@@ -17,6 +17,13 @@ if command -v python3 >/dev/null 2>&1; then
 else
   fail "python3 not found; every tool needs it"
 fi
+if [ "$HAVE_PY" -eq 1 ]; then
+  if python3 -c "import fastapi, pydantic, docx, pypdf" 2>/dev/null; then
+    pass "requirements-sandbox.txt importable"
+  else
+    warn "requirements-sandbox.txt not installed; screen_resumes and PDF resumes fail (BOX_SETUP (e))"
+  fi
+fi
 
 # 2. Workspace layout
 PROBE="$WORKSPACE/.write-probe.$$"

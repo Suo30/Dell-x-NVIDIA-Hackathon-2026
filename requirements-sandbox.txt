@@ -1,0 +1,7 @@
+# Sandbox extras: screen_resumes.py (recruit_assistant) and PDF resumes. Every other tool is stdlib only.
+# Pinned to what requirements-recruit.txt resolves on a laptop. Streamlit and uvicorn are not needed here.
+#   python3 -m pip install --user -r requirements-sandbox.txt
+fastapi==0.142.2
+pydantic==2.13.5
+python-docx==1.2.0
+pypdf==6.19.0

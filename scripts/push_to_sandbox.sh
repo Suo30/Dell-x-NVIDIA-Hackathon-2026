@@ -1,16 +1,16 @@
 #!/usr/bin/env bash
 # Run on the box HOST from the repo clone. Ships the COMMITTED repo into the
-# sandbox, installs infra/sandbox.env as .env, checks the job-boards policy.
-# Idempotent: rerun after every git pull. Nothing here holds secrets.
+# sandbox, installs infra/sandbox.env as .env, checks the job-boards and
+# slack-files policies. Idempotent: rerun after every git pull. Nothing here holds secrets.
 set -euo pipefail
 
-SB="${SANDBOX:-career-agent}"
+SB="${SANDBOX:-career-agent}"   # TODO(verify): sandbox name, see docs/BOX_SETUP.md
 W="${WORKSPACE:-/sandbox/.openclaw/workspace}"
 STAGE="${STAGE:-/sandbox}"
 cd "$(git rev-parse --show-toplevel)"
 
 # 0. Everything we deploy must be committed on the checked-out branch
-for f in infra/sandbox.env infra/job-boards.yaml prompts/system.md \
+for f in infra/sandbox.env infra/job-boards.yaml infra/slack-files.yaml prompts/system.md \
          skills/role-architect/SKILL.md skills/career-matcher/SKILL.md \
          skills/resume-screener/SKILL.md; do
   git cat-file -e "HEAD:$f" 2>/dev/null || { echo "ERROR: $f is not committed on this branch"; exit 1; }
@@ -42,12 +42,22 @@ nemoclaw "$SB" exec -- sh -c "
   echo 'installed .env:'; cat $W/repo/.env
 "
 
-# 4. Egress policy: re-apply job-boards if it is missing (a rebuild may drop it)
-if openshell policy get --full "$SB" 2>/dev/null | grep -q boards-api.greenhouse.io; then
+# 4. Egress policies: re-apply if missing (a rebuild may drop them)
+POLICY="$(openshell policy get --full "$SB" 2>/dev/null || true)"
+if grep -q boards-api.greenhouse.io <<<"$POLICY"; then
   echo "policy: job-boards present"
 else
   echo "policy: job-boards missing, applying"
   nemoclaw "$SB" policy-add --from-file infra/job-boards.yaml \
+    || echo "WARN: policy-add failed, run it by hand"
+fi
+if grep -q files.slack.com <<<"$POLICY"; then
+  echo "policy: slack-files present"
+elif grep -q REPLACE_WITH_BINARY infra/slack-files.yaml; then
+  echo "WARN: policy: slack-files not added; set its binary path from openshell term first (BOX_SETUP (h) step 5)"
+else
+  echo "policy: slack-files missing, applying"
+  nemoclaw "$SB" policy-add --from-file infra/slack-files.yaml \
     || echo "WARN: policy-add failed, run it by hand"
 fi
 
