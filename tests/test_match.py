@@ -2,9 +2,8 @@ import copy
 import json
 import random
 
-import pytest
-
 import _match
+import pytest
 from conftest import ROOT
 
 FIX = ROOT / "tests" / "fixtures"

@@ -1,0 +1,111 @@
+{
+  "availability": {
+    "start": "2027-01",
+    "type": "co-op"
+  },
+  "bullets": [
+    {
+      "id": "b1",
+      "text": "Used React Native in a course project on a scheduling tool"
+    },
+    {
+      "id": "b2",
+      "text": "Used MySQL in a course project on a test harness"
+    },
+    {
+      "id": "b3",
+      "text": "Used Python in a course project on a maintenance log"
+    },
+    {
+      "id": "b4",
+      "text": "Used Git in a course project on a test harness"
+    },
+    {
+      "id": "b5",
+      "text": "Built a sensor dashboard using Java for a hackathon team"
+    },
+    {
+      "id": "b6",
+      "text": "Used Project Management in a course project on a prototype rig"
+    }
+  ],
+  "company_prefs": [],
+  "id": "c010",
+  "location": {
+    "preferred": [
+      "Boston, MA"
+    ],
+    "remote": "onsite"
+  },
+  "name": "Umber Capybara",
+  "notes": [],
+  "program": "BS Data Science",
+  "school": "Northeastern University",
+  "skills": [
+    {
+      "evidence": [
+        {
+          "source": "resume",
+          "text": "Used React Native in a course project on a scheduling tool"
+        }
+      ],
+      "level": 1,
+      "skill_id": "react-native"
+    },
+    {
+      "evidence": [
+        {
+          "source": "resume",
+          "text": "Used MySQL in a course project on a test harness"
+        }
+      ],
+      "level": 1,
+      "skill_id": "mysql"
+    },
+    {
+      "evidence": [
+        {
+          "source": "resume",
+          "text": "Used Python in a course project on a maintenance log"
+        }
+      ],
+      "level": 1,
+      "skill_id": "python"
+    },
+    {
+      "evidence": [
+        {
+          "source": "resume",
+          "text": "Used Git in a course project on a test harness"
+        }
+      ],
+      "level": 1,
+      "skill_id": "git"
+    },
+    {
+      "evidence": [
+        {
+          "source": "resume",
+          "text": "Built a sensor dashboard using Java for a hackathon team"
+        }
+      ],
+      "level": 2,
+      "skill_id": "java"
+    },
+    {
+      "evidence": [
+        {
+          "source": "resume",
+          "text": "Used Project Management in a course project on a prototype rig"
+        }
+      ],
+      "level": 1,
+      "skill_id": "project-management"
+    }
+  ],
+  "visa": {
+    "needs_sponsorship": true,
+    "status": "F-1",
+    "us_person": false
+  }
+}

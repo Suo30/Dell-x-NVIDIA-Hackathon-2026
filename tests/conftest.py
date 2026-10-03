@@ -6,7 +6,7 @@ import pytest
 ROOT = Path(__file__).resolve().parent.parent
 sys.path[:0] = [str(ROOT / "tools"), str(ROOT / "scripts")]
 
-import _config  # noqa: E402
+import _config
 
 
 @pytest.fixture

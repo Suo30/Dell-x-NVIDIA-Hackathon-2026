@@ -1,0 +1,117 @@
+{
+  "availability": {
+    "start": "2027-01",
+    "type": "co-op"
+  },
+  "bullets": [
+    {
+      "id": "b1",
+      "text": "Built a reporting service using Linux for a capstone project"
+    },
+    {
+      "id": "b2",
+      "text": "Built a maintenance log using Git for a hackathon team"
+    },
+    {
+      "id": "b3",
+      "text": "Used Docker in a course project on a scheduling tool"
+    },
+    {
+      "id": "b4",
+      "text": "Built a inventory tracker using Kubernetes for a student club"
+    },
+    {
+      "id": "b5",
+      "text": "Built a maintenance log using AWS for a hackathon team"
+    },
+    {
+      "id": "b6",
+      "text": "Used Communication in a course project on a scheduling tool"
+    }
+  ],
+  "company_prefs": [
+    {
+      "company": "Acme",
+      "min_pay": 30,
+      "stance": "only_strong_offer"
+    }
+  ],
+  "id": "c023",
+  "location": {
+    "preferred": [
+      "Providence, RI"
+    ],
+    "remote": "any"
+  },
+  "name": "Casey Marmot",
+  "notes": [],
+  "program": "MS Computer Science",
+  "school": "Northeastern University",
+  "skills": [
+    {
+      "evidence": [
+        {
+          "source": "resume",
+          "text": "Built a reporting service using Linux for a capstone project"
+        }
+      ],
+      "level": 2,
+      "skill_id": "linux"
+    },
+    {
+      "evidence": [
+        {
+          "source": "resume",
+          "text": "Built a maintenance log using Git for a hackathon team"
+        }
+      ],
+      "level": 2,
+      "skill_id": "git"
+    },
+    {
+      "evidence": [
+        {
+          "source": "resume",
+          "text": "Used Docker in a course project on a scheduling tool"
+        }
+      ],
+      "level": 1,
+      "skill_id": "docker"
+    },
+    {
+      "evidence": [
+        {
+          "source": "resume",
+          "text": "Built a inventory tracker using Kubernetes for a student club"
+        }
+      ],
+      "level": 2,
+      "skill_id": "kubernetes"
+    },
+    {
+      "evidence": [
+        {
+          "source": "resume",
+          "text": "Built a maintenance log using AWS for a hackathon team"
+        }
+      ],
+      "level": 2,
+      "skill_id": "aws"
+    },
+    {
+      "evidence": [
+        {
+          "source": "resume",
+          "text": "Used Communication in a course project on a scheduling tool"
+        }
+      ],
+      "level": 1,
+      "skill_id": "communication"
+    }
+  ],
+  "visa": {
+    "needs_sponsorship": true,
+    "status": "F-1",
+    "us_person": false
+  }
+}

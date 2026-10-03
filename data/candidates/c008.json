@@ -1,0 +1,125 @@
+{
+  "availability": {
+    "start": "2027-05",
+    "type": "full-time"
+  },
+  "bullets": [
+    {
+      "id": "b1",
+      "text": "Led the design of a scheduling tool using React Native for a hackathon team"
+    },
+    {
+      "id": "b2",
+      "text": "Built a test harness using MySQL for a capstone project"
+    },
+    {
+      "id": "b3",
+      "text": "Built a scheduling tool using Python for a hackathon team"
+    },
+    {
+      "id": "b4",
+      "text": "Built a data pipeline using Git for a campus lab"
+    },
+    {
+      "id": "b5",
+      "text": "Built a prototype rig using JavaScript for a research group"
+    },
+    {
+      "id": "b6",
+      "text": "Built a scheduling tool using TypeScript for a student club"
+    },
+    {
+      "id": "b7",
+      "text": "Built a data pipeline using Communication for a hackathon team"
+    }
+  ],
+  "company_prefs": [],
+  "id": "c008",
+  "location": {
+    "preferred": [
+      "Boston, MA"
+    ],
+    "remote": "onsite"
+  },
+  "name": "Dakota Okapi",
+  "notes": [],
+  "program": "MS Computer Science",
+  "school": "Northeastern University",
+  "skills": [
+    {
+      "evidence": [
+        {
+          "source": "resume",
+          "text": "Led the design of a scheduling tool using React Native for a hackathon team"
+        }
+      ],
+      "level": 3,
+      "skill_id": "react-native"
+    },
+    {
+      "evidence": [
+        {
+          "source": "resume",
+          "text": "Built a test harness using MySQL for a capstone project"
+        }
+      ],
+      "level": 2,
+      "skill_id": "mysql"
+    },
+    {
+      "evidence": [
+        {
+          "source": "resume",
+          "text": "Built a scheduling tool using Python for a hackathon team"
+        }
+      ],
+      "level": 2,
+      "skill_id": "python"
+    },
+    {
+      "evidence": [
+        {
+          "source": "resume",
+          "text": "Built a data pipeline using Git for a campus lab"
+        }
+      ],
+      "level": 2,
+      "skill_id": "git"
+    },
+    {
+      "evidence": [
+        {
+          "source": "resume",
+          "text": "Built a prototype rig using JavaScript for a research group"
+        }
+      ],
+      "level": 2,
+      "skill_id": "javascript"
+    },
+    {
+      "evidence": [
+        {
+          "source": "resume",
+          "text": "Built a scheduling tool using TypeScript for a student club"
+        }
+      ],
+      "level": 2,
+      "skill_id": "typescript"
+    },
+    {
+      "evidence": [
+        {
+          "source": "resume",
+          "text": "Built a data pipeline using Communication for a hackathon team"
+        }
+      ],
+      "level": 2,
+      "skill_id": "communication"
+    }
+  ],
+  "visa": {
+    "needs_sponsorship": true,
+    "status": "F-1",
+    "us_person": false
+  }
+}

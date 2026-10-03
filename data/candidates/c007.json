@@ -1,0 +1,125 @@
+{
+  "availability": {
+    "start": "2026-07",
+    "type": "internship"
+  },
+  "bullets": [
+    {
+      "id": "b1",
+      "text": "Led the design of a reporting service using React Native for a campus lab"
+    },
+    {
+      "id": "b2",
+      "text": "Built a sensor dashboard using MySQL for a campus lab"
+    },
+    {
+      "id": "b3",
+      "text": "Built a reporting service using Python for a hackathon team"
+    },
+    {
+      "id": "b4",
+      "text": "Built a sensor dashboard using Git for a hackathon team"
+    },
+    {
+      "id": "b5",
+      "text": "Built a test harness using Kotlin for a student club"
+    },
+    {
+      "id": "b6",
+      "text": "Used Flutter in a course project on a sensor dashboard"
+    },
+    {
+      "id": "b7",
+      "text": "Used Technical Writing in a course project on a inventory tracker"
+    }
+  ],
+  "company_prefs": [],
+  "id": "c007",
+  "location": {
+    "preferred": [
+      "Boston, MA"
+    ],
+    "remote": "any"
+  },
+  "name": "Vale Numbat",
+  "notes": [],
+  "program": "BS Computer Science",
+  "school": "Northeastern University",
+  "skills": [
+    {
+      "evidence": [
+        {
+          "source": "resume",
+          "text": "Led the design of a reporting service using React Native for a campus lab"
+        }
+      ],
+      "level": 3,
+      "skill_id": "react-native"
+    },
+    {
+      "evidence": [
+        {
+          "source": "resume",
+          "text": "Built a sensor dashboard using MySQL for a campus lab"
+        }
+      ],
+      "level": 2,
+      "skill_id": "mysql"
+    },
+    {
+      "evidence": [
+        {
+          "source": "resume",
+          "text": "Built a reporting service using Python for a hackathon team"
+        }
+      ],
+      "level": 2,
+      "skill_id": "python"
+    },
+    {
+      "evidence": [
+        {
+          "source": "resume",
+          "text": "Built a sensor dashboard using Git for a hackathon team"
+        }
+      ],
+      "level": 2,
+      "skill_id": "git"
+    },
+    {
+      "evidence": [
+        {
+          "source": "resume",
+          "text": "Built a test harness using Kotlin for a student club"
+        }
+      ],
+      "level": 2,
+      "skill_id": "kotlin"
+    },
+    {
+      "evidence": [
+        {
+          "source": "resume",
+          "text": "Used Flutter in a course project on a sensor dashboard"
+        }
+      ],
+      "level": 1,
+      "skill_id": "flutter"
+    },
+    {
+      "evidence": [
+        {
+          "source": "resume",
+          "text": "Used Technical Writing in a course project on a inventory tracker"
+        }
+      ],
+      "level": 1,
+      "skill_id": "technical-writing"
+    }
+  ],
+  "visa": {
+    "needs_sponsorship": false,
+    "status": "US citizen",
+    "us_person": true
+  }
+}

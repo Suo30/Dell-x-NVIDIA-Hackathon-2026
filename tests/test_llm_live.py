@@ -1,10 +1,9 @@
 import os
 
-import pytest
-
 import _config
 import _llm
 import _taxonomy
+import pytest
 from conftest import ROOT
 
 pytestmark = [

@@ -1,0 +1,1 @@
+We need help building a test rig for our actuators. Today an engineer cycles each unit by hand and writes the readings down, which takes most of a day per batch. I'd like a fixture that runs the cycles automatically, logs force and position, and flags units that drift out of spec. Someone who is comfortable with both the mechanical side and the controls side would be ideal.

@@ -1,0 +1,121 @@
+{
+  "availability": {
+    "start": "2026-07",
+    "type": "co-op"
+  },
+  "bullets": [
+    {
+      "id": "b1",
+      "text": "Led the design of a prototype rig using SolidWorks for a campus lab"
+    },
+    {
+      "id": "b2",
+      "text": "Built a inventory tracker using MATLAB for a campus lab"
+    },
+    {
+      "id": "b3",
+      "text": "Used 3D Printing in a course project on a test harness"
+    },
+    {
+      "id": "b4",
+      "text": "Used Simulink in a course project on a data pipeline"
+    },
+    {
+      "id": "b5",
+      "text": "Used LabVIEW in a course project on a sensor dashboard"
+    },
+    {
+      "id": "b6",
+      "text": "Built a maintenance log using Project Management for a co-op team"
+    }
+  ],
+  "company_prefs": [],
+  "id": "c015",
+  "location": {
+    "preferred": [
+      "Providence, RI"
+    ],
+    "remote": "remote"
+  },
+  "name": "Sage Platypus",
+  "notes": [],
+  "program": "BS Mechanical Engineering",
+  "school": "UMass Boston",
+  "skills": [
+    {
+      "evidence": [
+        {
+          "source": "resume",
+          "text": "Led the design of a prototype rig using SolidWorks for a campus lab"
+        }
+      ],
+      "level": 3,
+      "skill_id": "solidworks"
+    },
+    {
+      "evidence": [
+        {
+          "source": "resume",
+          "text": "Built a inventory tracker using MATLAB for a campus lab"
+        }
+      ],
+      "level": 2,
+      "skill_id": "matlab"
+    },
+    {
+      "evidence": [
+        {
+          "source": "resume",
+          "text": "Used 3D Printing in a course project on a test harness"
+        }
+      ],
+      "level": 1,
+      "skill_id": "3d-printing"
+    },
+    {
+      "evidence": [
+        {
+          "source": "resume",
+          "text": "Used Simulink in a course project on a data pipeline"
+        }
+      ],
+      "level": 1,
+      "skill_id": "simulink"
+    },
+    {
+      "evidence": [
+        {
+          "source": "resume",
+          "text": "Used LabVIEW in a course project on a sensor dashboard"
+        }
+      ],
+      "level": 1,
+      "skill_id": "labview"
+    },
+    {
+      "evidence": [
+        {
+          "source": "resume",
+          "text": "Built a maintenance log using Project Management for a co-op team"
+        }
+      ],
+      "level": 2,
+      "skill_id": "project-management"
+    },
+    {
+      "evidence": [
+        {
+          "source": "chat",
+          "text": "I picked up Docker on a side project last summer"
+        }
+      ],
+      "level": 1,
+      "skill_id": "docker"
+    }
+  ],
+  "visa": {
+    "needs_sponsorship": true,
+    "status": "F-1",
+    "us_person": false
+  }
+}

@@ -1,0 +1,111 @@
+{
+  "availability": {
+    "start": "2027-01",
+    "type": "internship"
+  },
+  "bullets": [
+    {
+      "id": "b1",
+      "text": "Built a data pipeline using SolidWorks for a capstone project"
+    },
+    {
+      "id": "b2",
+      "text": "Built a data pipeline using MATLAB for a co-op team"
+    },
+    {
+      "id": "b3",
+      "text": "Built a inventory tracker using Arduino for a research group"
+    },
+    {
+      "id": "b4",
+      "text": "Used Excel in a course project on a prototype rig"
+    },
+    {
+      "id": "b5",
+      "text": "Built a data pipeline using CAD for a research group"
+    },
+    {
+      "id": "b6",
+      "text": "Built a maintenance log using Teamwork for a co-op team"
+    }
+  ],
+  "company_prefs": [],
+  "id": "c016",
+  "location": {
+    "preferred": [
+      "New York, NY"
+    ],
+    "remote": "hybrid"
+  },
+  "name": "Zion Wombat",
+  "notes": [],
+  "program": "MS Mechanical Engineering",
+  "school": "Northeastern University",
+  "skills": [
+    {
+      "evidence": [
+        {
+          "source": "resume",
+          "text": "Built a data pipeline using SolidWorks for a capstone project"
+        }
+      ],
+      "level": 2,
+      "skill_id": "solidworks"
+    },
+    {
+      "evidence": [
+        {
+          "source": "resume",
+          "text": "Built a data pipeline using MATLAB for a co-op team"
+        }
+      ],
+      "level": 2,
+      "skill_id": "matlab"
+    },
+    {
+      "evidence": [
+        {
+          "source": "resume",
+          "text": "Built a inventory tracker using Arduino for a research group"
+        }
+      ],
+      "level": 2,
+      "skill_id": "arduino"
+    },
+    {
+      "evidence": [
+        {
+          "source": "resume",
+          "text": "Used Excel in a course project on a prototype rig"
+        }
+      ],
+      "level": 1,
+      "skill_id": "excel"
+    },
+    {
+      "evidence": [
+        {
+          "source": "resume",
+          "text": "Built a data pipeline using CAD for a research group"
+        }
+      ],
+      "level": 2,
+      "skill_id": "cad"
+    },
+    {
+      "evidence": [
+        {
+          "source": "resume",
+          "text": "Built a maintenance log using Teamwork for a co-op team"
+        }
+      ],
+      "level": 2,
+      "skill_id": "teamwork"
+    }
+  ],
+  "visa": {
+    "needs_sponsorship": false,
+    "status": "Permanent resident",
+    "us_person": true
+  }
+}

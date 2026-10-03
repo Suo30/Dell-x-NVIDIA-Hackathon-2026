@@ -1,0 +1,111 @@
+{
+  "availability": {
+    "start": "2026-07",
+    "type": "internship"
+  },
+  "bullets": [
+    {
+      "id": "b1",
+      "text": "Built a scheduling tool using C++ for a co-op team"
+    },
+    {
+      "id": "b2",
+      "text": "Built a prototype rig using Embedded C for a capstone project"
+    },
+    {
+      "id": "b3",
+      "text": "Used Circuit Design in a course project on a reporting service"
+    },
+    {
+      "id": "b4",
+      "text": "Used PLC Programming in a course project on a inventory tracker"
+    },
+    {
+      "id": "b5",
+      "text": "Built a test harness using ROS for a research group"
+    },
+    {
+      "id": "b6",
+      "text": "Built a sensor dashboard using Leadership for a research group"
+    }
+  ],
+  "company_prefs": [],
+  "id": "c029",
+  "location": {
+    "preferred": [
+      "Boston, MA"
+    ],
+    "remote": "hybrid"
+  },
+  "name": "Wren Puffin",
+  "notes": [],
+  "program": "MS Electrical and Computer Engineering",
+  "school": "Northeastern University",
+  "skills": [
+    {
+      "evidence": [
+        {
+          "source": "resume",
+          "text": "Built a scheduling tool using C++ for a co-op team"
+        }
+      ],
+      "level": 2,
+      "skill_id": "cpp"
+    },
+    {
+      "evidence": [
+        {
+          "source": "resume",
+          "text": "Built a prototype rig using Embedded C for a capstone project"
+        }
+      ],
+      "level": 2,
+      "skill_id": "embedded-c"
+    },
+    {
+      "evidence": [
+        {
+          "source": "resume",
+          "text": "Used Circuit Design in a course project on a reporting service"
+        }
+      ],
+      "level": 1,
+      "skill_id": "circuit-design"
+    },
+    {
+      "evidence": [
+        {
+          "source": "resume",
+          "text": "Used PLC Programming in a course project on a inventory tracker"
+        }
+      ],
+      "level": 1,
+      "skill_id": "plc"
+    },
+    {
+      "evidence": [
+        {
+          "source": "resume",
+          "text": "Built a test harness using ROS for a research group"
+        }
+      ],
+      "level": 2,
+      "skill_id": "ros"
+    },
+    {
+      "evidence": [
+        {
+          "source": "resume",
+          "text": "Built a sensor dashboard using Leadership for a research group"
+        }
+      ],
+      "level": 2,
+      "skill_id": "leadership"
+    }
+  ],
+  "visa": {
+    "needs_sponsorship": false,
+    "status": "US citizen",
+    "us_person": true
+  }
+}

@@ -1,9 +1,8 @@
 from datetime import datetime, timedelta
 
-import pytest
-
 import _config
 import _db
+import pytest
 
 
 @pytest.fixture

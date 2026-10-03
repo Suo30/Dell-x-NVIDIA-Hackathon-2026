@@ -68,7 +68,7 @@ def _extract(text):
         raise ValueError(f"no JSON object in model output: {text[:200]!r}")
     obj = json.loads(text[start:end + 1])
     if not isinstance(obj, dict):
-        raise ValueError("model output is not a JSON object")
+        raise ValueError("model output is not a JSON object")  # noqa: TRY004, retried as a parse failure
     return obj
 
 

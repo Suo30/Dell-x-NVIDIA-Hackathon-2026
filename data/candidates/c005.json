@@ -1,0 +1,125 @@
+{
+  "availability": {
+    "start": "2027-01",
+    "type": "full-time"
+  },
+  "bullets": [
+    {
+      "id": "b1",
+      "text": "Built a data pipeline using React Native for a hackathon team"
+    },
+    {
+      "id": "b2",
+      "text": "Built a prototype rig using MySQL for a research group"
+    },
+    {
+      "id": "b3",
+      "text": "Built a data pipeline using Python for a hackathon team"
+    },
+    {
+      "id": "b4",
+      "text": "Built a reporting service using Git for a capstone project"
+    },
+    {
+      "id": "b5",
+      "text": "Used TypeScript in a course project on a prototype rig"
+    },
+    {
+      "id": "b6",
+      "text": "Built a data pipeline using Node.js for a co-op team"
+    },
+    {
+      "id": "b7",
+      "text": "Built a inventory tracker using Project Management for a campus lab"
+    }
+  ],
+  "company_prefs": [],
+  "id": "c005",
+  "location": {
+    "preferred": [
+      "Providence, RI"
+    ],
+    "remote": "remote"
+  },
+  "name": "Reese Narwhal",
+  "notes": [],
+  "program": "BS Computer Science",
+  "school": "Northeastern University",
+  "skills": [
+    {
+      "evidence": [
+        {
+          "source": "resume",
+          "text": "Built a data pipeline using React Native for a hackathon team"
+        }
+      ],
+      "level": 2,
+      "skill_id": "react-native"
+    },
+    {
+      "evidence": [
+        {
+          "source": "resume",
+          "text": "Built a prototype rig using MySQL for a research group"
+        }
+      ],
+      "level": 2,
+      "skill_id": "mysql"
+    },
+    {
+      "evidence": [
+        {
+          "source": "resume",
+          "text": "Built a data pipeline using Python for a hackathon team"
+        }
+      ],
+      "level": 2,
+      "skill_id": "python"
+    },
+    {
+      "evidence": [
+        {
+          "source": "resume",
+          "text": "Built a reporting service using Git for a capstone project"
+        }
+      ],
+      "level": 2,
+      "skill_id": "git"
+    },
+    {
+      "evidence": [
+        {
+          "source": "resume",
+          "text": "Used TypeScript in a course project on a prototype rig"
+        }
+      ],
+      "level": 1,
+      "skill_id": "typescript"
+    },
+    {
+      "evidence": [
+        {
+          "source": "resume",
+          "text": "Built a data pipeline using Node.js for a co-op team"
+        }
+      ],
+      "level": 2,
+      "skill_id": "nodejs"
+    },
+    {
+      "evidence": [
+        {
+          "source": "resume",
+          "text": "Built a inventory tracker using Project Management for a campus lab"
+        }
+      ],
+      "level": 2,
+      "skill_id": "project-management"
+    }
+  ],
+  "visa": {
+    "needs_sponsorship": true,
+    "status": "F-1",
+    "us_person": false
+  }
+}

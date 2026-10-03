@@ -1,9 +1,8 @@
 import json
 
-import pytest
-
 import _config
 import _taxonomy
+import pytest
 from conftest import ROOT
 
 

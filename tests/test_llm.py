@@ -3,10 +3,9 @@ import socket
 import threading
 from http.server import BaseHTTPRequestHandler, HTTPServer
 
-import pytest
-
 import _config
 import _llm
+import pytest
 
 BAD = "Sure! Here is the data you asked for."
 
