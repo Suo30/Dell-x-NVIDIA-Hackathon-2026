@@ -1,0 +1,17 @@
+# Slack attachment downloads (url_private_download). Binary path: copy it from `openshell term`.
+# TODO(verify): binary path (likely the OpenClaw gateway's node, not python3) and that egress is the cause (A step 2).
+preset:
+  name: slack-files
+  description: "Slack private file downloads for attachments"
+network_policies:
+  slack-files:
+    name: slack-files
+    endpoints:
+      - host: files.slack.com
+        port: 443
+        protocol: rest
+        enforcement: enforce
+        rules:
+          - allow: { method: GET, path: "/**" }
+    binaries:
+      - { path: REPLACE_WITH_BINARY_FROM_OPENSHELL_TERM }

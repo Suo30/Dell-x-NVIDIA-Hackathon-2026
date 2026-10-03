@@ -2,7 +2,7 @@
 # Host-side readiness checks for the Dell box. Runs on the HOST, not in the sandbox.
 # Runs every check, never stops early. Exit code 1 if any FAIL.
 # Usage: bash scripts/box_preflight.sh   (SANDBOX=name to override)
-SANDBOX="${SANDBOX:-my-assistant}"
+SANDBOX="${SANDBOX:-career-agent}"   # TODO(verify): sandbox name, see docs/BOX_SETUP.md
 API="http://127.0.0.1:8000/v1"
 PASS=0; FAIL=0; WARN=0
 

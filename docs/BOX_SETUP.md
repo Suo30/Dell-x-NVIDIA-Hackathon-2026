@@ -1,7 +1,11 @@
 # Box setup runbook (Person A)
 
-Host = the Dell GB10 box shell. Sandbox = a shell inside the `my-assistant` sandbox.
+Host = the Dell GB10 box shell. Sandbox = a shell inside the `career-agent` sandbox.
 Anything marked `TODO(verify)` has not been confirmed on the box yet. Check it before relying on it.
+
+**Sandbox name: `career-agent`.** `TODO(verify)`: confirm with `openshell sandbox list` (or `nemoclaw list`).
+Every command below and the `SANDBOX` default in `push_to_sandbox.sh` and `box_preflight.sh` use it. If the real
+name differs, run the scripts with `SANDBOX=<name>` and fix this file.
 
 **Answer to Q3:** workspace path is `/sandbox/.openclaw/workspace/`, repo at `/sandbox/.openclaw/workspace/repo`,
 skills at `/sandbox/.openclaw/workspace/skills`. `prompts/system.md` deploys as `/sandbox/.openclaw/workspace/AGENTS.md`.
@@ -57,7 +61,7 @@ If `nemoclaw onboard` asks for the tokens itself, paste them at its prompt inste
 Choices during onboarding:
 - Agent: OpenClaw
 - Inference: local vLLM, or "Other OpenAI-compatible endpoint" with base URL `http://localhost:8000/v1` and API key `dummy`
-- Sandbox name: `my-assistant`
+- Sandbox name: `career-agent`
 - Channels: toggle Slack on
 - Policy: default policy tier
 
@@ -67,7 +71,7 @@ After onboarding, clear the tokens from the shell: `unset SLACK_BOT_TOKEN SLACK_
 
 ```sh
 openshell inference get
-nemoclaw my-assistant channels list
+nemoclaw career-agent channels list
 ```
 
 The inference output must show only the local vLLM route. The channel list must show Slack.
@@ -75,7 +79,7 @@ The inference output must show only the local vLLM route. The channel list must 
 ## (e) Job board network policy (host, repo checkout)
 
 ```sh
-nemoclaw my-assistant policy-add --from-file infra/job-boards.yaml
+nemoclaw career-agent policy-add --from-file infra/job-boards.yaml
 ```
 
 The `binaries` path in `infra/job-boards.yaml` (`/usr/bin/python3`) is a guess. Keep `openshell term` open,
@@ -85,18 +89,32 @@ binary path it reports into the YAML and run `policy-add` again.
 Applicant screening (`screen_resumes.py --consent-confirmed`) also needs the public GitHub API:
 
 ```sh
-nemoclaw my-assistant policy-add --from-file infra/recruit-research.yaml
+nemoclaw career-agent policy-add --from-file infra/recruit-research.yaml
 ```
 
-`scripts/push_to_sandbox.sh` does not install these; once per sandbox (and after a rebuild) run:
+Sandbox Python extras (`fastapi pydantic python-docx pypdf`, pinned in `requirements-sandbox.txt`) for
+`screen_resumes.py` and PDF resumes. `scripts/push_to_sandbox.sh` does not install them; once per sandbox (and
+after a rebuild), allow PyPI with NemoClaw's `pypi` preset (`nemoclaw career-agent policy-add --help` shows the
+preset syntax), then run:
 
 ```sh
-nemoclaw career-agent exec -- python3 -m pip install -r /sandbox/.openclaw/workspace/repo/requirements-recruit.txt
+nemoclaw career-agent exec -- python3 -m pip install --user -r /sandbox/.openclaw/workspace/repo/requirements-sandbox.txt
+nemoclaw career-agent exec -- python3 -c "import fastapi, pydantic, docx, pypdf; print('ok')"
 ```
 
-Without it every tool except `screen_resumes.py` still works.
+No PyPI: on the host, with a Python whose `X.Y` matches the sandbox `python3 --version`, run
+`python3 -m pip download --only-binary=:all: -d wheels -r requirements-sandbox.txt`, then
+`openshell sandbox upload career-agent wheels /sandbox/` and install with
+`pip install --user --no-index --find-links /sandbox/wheels -r .../requirements-sandbox.txt`.
+
+Without them every tool except `screen_resumes.py` still works (PDF resumes ask for pasted text instead).
 
 ## (f) Get the repo into the sandbox
+
+Default path (host, repo checkout on `main`): `bash scripts/push_to_sandbox.sh`. It uploads the committed `HEAD`
+with `openshell sandbox upload`, unpacks it to the repo path, refreshes skills and `AGENTS.md`, installs
+`infra/sandbox.env` as `.env` and re-applies missing egress policies. Then run (g) from `sandbox_check.sh` on.
+The options below are the manual fallback.
 
 First open a shell inside the sandbox. `TODO(verify)`: exact command (check `nemoclaw --help`).
 
@@ -149,7 +167,10 @@ Go in order. Do not move on until the step passes.
 3. Skills loaded (sandbox): `openclaw skills list`. Expect `role-architect` and `career-matcher`.
 4. One tool from Slack: `@Career Agent list the latest internal jobs`. Expect the agent to run `list_jobs.py` and report its JSON.
 5. File upload: upload `tests/fixtures/resume.txt` in `#students` with `@Career Agent here is my resume`.
-   If the agent cannot read it, the demo uses pasted resume text.
+   If the agent cannot read it, the demo uses pasted resume text. Diagnosis and fixes: handoff A step 2
+   (egress fix: set the binary path in `infra/slack-files.yaml`, then
+   `nemoclaw career-agent policy-add --from-file infra/slack-files.yaml`).
+   Slack attachment result: pending diagnosis (A step 2). Fallback in skills: pasted text.
 6. Live fetch with `openshell term` open on the host: `@Career Agent refresh the job list`.
    Watch for blocked requests; fix the policy binary path per (e).
 
@@ -166,9 +187,9 @@ the submission. `box_preflight.sh` warns if a cloud provider appears in this out
 
 - Channel messages need an explicit mention. Every demo message starts with `@Career Agent`.
 - Never run `openclaw channels add` inside the sandbox. Channels are managed from the host through onboarding.
-- `openshell policy set` replaces the whole policy. Use `nemoclaw my-assistant policy-add` instead.
+- `openshell policy set` replaces the whole policy. Use `nemoclaw career-agent policy-add` instead.
 - Adding a Slack channel rebuilds the sandbox image. Do it before loading code into the workspace.
-- The workspace is lost on `nemoclaw my-assistant destroy`. Back it up first (`.env` and the DB are the only
+- The workspace is lost on `nemoclaw career-agent destroy`. Back it up first (`.env` and the DB are the only
   things not in git). `TODO(verify)`: how to copy files out of the sandbox.
 - vLLM must be launched with tool-call parsing enabled (`--enable-auto-tool-choice --tool-call-parser ...`,
   `TODO(verify)`). The parser name for Qwen3.6-35B-A3B is unknown; check the model card.
