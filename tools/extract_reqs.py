@@ -40,7 +40,8 @@ Rules:
   authorization without sponsorship. It is true if it says it sponsors, and null if it says nothing.
 - clearance is "clearance" if a security clearance is required (or must be obtainable). It is
   "us_person" if US citizenship, US person status or export control (ITAR/EAR) is required.
-  Otherwise "none".
+  Otherwise "none". Count only what this role requires: equal-opportunity text and
+  "some roles may require" boilerplate do not count.
 - pay is the stated pay in USD with its period, or null if not stated. Never guess.
 
 Taxonomy:
