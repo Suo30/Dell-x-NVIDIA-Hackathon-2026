@@ -112,7 +112,7 @@ def _company_pref(profile, change, note):
     if company is None:
         raise _Ignore("company is missing")
     stance = change.get("stance")
-    if stance not in _profile.STANCES:
+    if not isinstance(stance, str) or stance not in _profile.STANCES:
         raise _Ignore(f"stance {stance!r} is not one of {sorted(_profile.STANCES)}")
     pref = {"company": company, "stance": stance, "min_pay": _pay(change.get("min_pay"))}
     prefs = profile["company_prefs"]
@@ -134,7 +134,7 @@ def _visa(profile, change, note):
 
 def _location(profile, change, note):
     remote = change.get("remote")
-    if remote not in _profile.REMOTE:
+    if not isinstance(remote, str) or remote not in _profile.REMOTE:
         raise _Ignore(f"remote {remote!r} is not one of {sorted(_profile.REMOTE)}")
     preferred = change.get("preferred")
     if not isinstance(preferred, list) or not all(isinstance(p, str) for p in preferred):
@@ -194,7 +194,7 @@ def main():
         changes, ignored = [], []
         for change in out["changes"]:
             kind = change.get("type") if isinstance(change, dict) else None
-            if kind not in HANDLERS:
+            if not isinstance(kind, str) or kind not in HANDLERS:
                 ignored.append({"change": change, "reason": f"unknown change type {kind!r}"})
                 continue
             try:

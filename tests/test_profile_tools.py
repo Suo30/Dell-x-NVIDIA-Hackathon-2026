@@ -154,7 +154,7 @@ def test_duplicate_skills_merge(tmp_db, monkeypatch):
         {"skill_id": "python", "level": 1, "source": "resume", "evidence": "Python"},
         {"skill_id": "Python", "level": "2", "source": "resume", "evidence": "Built a Python pipeline"},
         {"skill_id": "python", "level": 1, "source": "chat", "evidence": "Python"},
-        {"skill_id": "react native", "level": 1, "source": "websites", "evidence": "React Native app"},
+        {"skill_id": "react native", "level": 1, "source": ["chat"], "evidence": "React Native app"},
     ]})
     out = _ingest(monkeypatch)
     skills = out["profile"]["skills"]
@@ -169,7 +169,7 @@ def test_duplicate_skills_merge(tmp_db, monkeypatch):
 def test_null_visa_reported_missing(tmp_db, monkeypatch):
     _reply(monkeypatch, {**GOOD_FACTS,
                          "visa": {"status": None, "needs_sponsorship": None, "us_person": None},
-                         "location": {"preferred": None, "remote": "sometimes"},
+                         "location": {"preferred": None, "remote": ["hybrid"]},
                          "availability": None,
                          "skills": [{"skill_id": "git", "level": 1, "source": "resume", "evidence": "Git"}]})
     out = _ingest(monkeypatch)
@@ -264,11 +264,11 @@ def test_chat_evidence_appended(tmp_db, monkeypatch):
 def test_invalid_stance_ignored(tmp_db, monkeypatch):
     _seed(monkeypatch)
     bad = {"type": "company_pref", "company": "Acme", "stance": "maybe", "min_pay": None}
-    _reply(monkeypatch, {"changes": [bad, {"type": "salary"}, "oops"]})
+    _reply(monkeypatch, {"changes": [bad, {"type": "salary"}, "oops", {"type": ["skill"]}]})
     note = "Acme is fine I guess"
     out = _update(monkeypatch, "c001", note)
     assert out["changes"] == [{"type": "note"}]
-    assert [i["change"] for i in out["ignored"]] == [bad, {"type": "salary"}, "oops"]
+    assert [i["change"] for i in out["ignored"]] == [bad, {"type": "salary"}, "oops", {"type": ["skill"]}]
     assert "stance 'maybe'" in out["ignored"][0]["reason"]
     profile = _profile_of("c001")
     assert profile["company_prefs"] == []

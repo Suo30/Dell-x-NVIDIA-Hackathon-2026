@@ -98,6 +98,10 @@ def _level(value):
     return None
 
 
+def _choice(value, allowed, default):
+    return value if isinstance(value, str) and value in allowed else default
+
+
 def _visa(raw, missing):
     if isinstance(raw, dict) and isinstance(raw.get("needs_sponsorship"), bool) \
             and isinstance(raw.get("us_person"), bool):
@@ -115,8 +119,7 @@ def _location(raw, missing):
     else:
         preferred = []
         missing.append("location")
-    remote = raw.get("remote") if raw.get("remote") in _profile.REMOTE else "any"
-    return {"preferred": preferred, "remote": remote}
+    return {"preferred": preferred, "remote": _choice(raw.get("remote"), _profile.REMOTE, "any")}
 
 
 def _availability(raw, missing):
@@ -145,7 +148,7 @@ def _skills(raw):
         if text is None:
             dropped.append({"skill": name, "reason": "no evidence"})
             continue
-        source = item.get("source") if item.get("source") in _profile.SOURCES else "resume"
+        source = _choice(item.get("source"), _profile.SOURCES, "resume")
         if skill_id not in merged:
             merged[skill_id] = {"skill_id": skill_id, "level": level, "evidence": []}
         skill = merged[skill_id]
