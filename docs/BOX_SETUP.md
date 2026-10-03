@@ -88,8 +88,13 @@ Applicant screening (`screen_resumes.py --consent-confirmed`) also needs the pub
 nemoclaw my-assistant policy-add --from-file infra/recruit-research.yaml
 ```
 
-`scripts/push_to_sandbox.sh` runs `pip install -r requirements-recruit.txt` in the sandbox (needs PyPI
-reachable). Without it every tool except `screen_resumes.py` still works.
+`scripts/push_to_sandbox.sh` does not install these; once per sandbox (and after a rebuild) run:
+
+```sh
+nemoclaw career-agent exec -- python3 -m pip install -r /sandbox/.openclaw/workspace/repo/requirements-recruit.txt
+```
+
+Without it every tool except `screen_resumes.py` still works.
 
 ## (f) Get the repo into the sandbox
 

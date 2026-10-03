@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 # Run on the box HOST from the repo clone. Ships the COMMITTED repo into the
-# sandbox, installs infra/sandbox.env as .env and requirements-recruit.txt, checks egress policies.
+# sandbox, installs infra/sandbox.env as .env, checks the job-boards policy.
 # Idempotent: rerun after every git pull. Nothing here holds secrets.
 set -euo pipefail
 
@@ -10,7 +10,7 @@ STAGE="${STAGE:-/sandbox}"
 cd "$(git rev-parse --show-toplevel)"
 
 # 0. Everything we deploy must be committed on the checked-out branch
-for f in infra/sandbox.env infra/job-boards.yaml infra/recruit-research.yaml requirements-recruit.txt prompts/system.md \
+for f in infra/sandbox.env infra/job-boards.yaml prompts/system.md \
          skills/role-architect/SKILL.md skills/career-matcher/SKILL.md; do
   git cat-file -e "HEAD:$f" 2>/dev/null || { echo "ERROR: $f is not committed on this branch"; exit 1; }
 done
@@ -39,23 +39,14 @@ nemoclaw "$SB" exec -- sh -c "
   cp $W/repo/prompts/system.md $W/AGENTS.md
   cp $W/repo/infra/sandbox.env $W/repo/.env
   echo 'installed .env:'; cat $W/repo/.env
-  python3 -m pip install -q -r $W/repo/requirements-recruit.txt \
-    || echo 'WARN: pip install failed; screen_resumes.py returns an error until it works'
 "
 
-# 4. Egress policy: re-apply job-boards and recruit-research if missing (a rebuild may drop it)
+# 4. Egress policy: re-apply job-boards if it is missing (a rebuild may drop it)
 if openshell policy get --full "$SB" 2>/dev/null | grep -q boards-api.greenhouse.io; then
   echo "policy: job-boards present"
 else
   echo "policy: job-boards missing, applying"
   nemoclaw "$SB" policy-add --from-file infra/job-boards.yaml \
-    || echo "WARN: policy-add failed, run it by hand"
-fi
-if openshell policy get --full "$SB" 2>/dev/null | grep -q api.github.com; then
-  echo "policy: recruit-research present"
-else
-  echo "policy: recruit-research missing, applying"
-  nemoclaw "$SB" policy-add --from-file infra/recruit-research.yaml \
     || echo "WARN: policy-add failed, run it by hand"
 fi
 
