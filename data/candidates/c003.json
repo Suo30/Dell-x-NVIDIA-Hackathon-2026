@@ -1,0 +1,135 @@
+{
+  "availability": {
+    "start": "2027-05",
+    "type": "full-time"
+  },
+  "bullets": [
+    {
+      "id": "b1",
+      "text": "Led the design of a maintenance log using React Native for a capstone project"
+    },
+    {
+      "id": "b2",
+      "text": "Built a sensor dashboard using MySQL for a research group"
+    },
+    {
+      "id": "b3",
+      "text": "Built a maintenance log using Python for a campus lab"
+    },
+    {
+      "id": "b4",
+      "text": "Built a data pipeline using Git for a co-op team"
+    },
+    {
+      "id": "b5",
+      "text": "Used Swift in a course project on a reporting service"
+    },
+    {
+      "id": "b6",
+      "text": "Used Kotlin in a course project on a data pipeline"
+    },
+    {
+      "id": "b7",
+      "text": "Built a maintenance log using Communication for a co-op team"
+    }
+  ],
+  "company_prefs": [],
+  "id": "c003",
+  "location": {
+    "preferred": [
+      "Boston, MA"
+    ],
+    "remote": "remote"
+  },
+  "name": "Dakota Tamarin",
+  "notes": [],
+  "program": "BS Computer Science",
+  "school": "Wentworth Institute of Technology",
+  "skills": [
+    {
+      "evidence": [
+        {
+          "source": "resume",
+          "text": "Led the design of a maintenance log using React Native for a capstone project"
+        }
+      ],
+      "level": 3,
+      "skill_id": "react-native"
+    },
+    {
+      "evidence": [
+        {
+          "source": "resume",
+          "text": "Built a sensor dashboard using MySQL for a research group"
+        }
+      ],
+      "level": 2,
+      "skill_id": "mysql"
+    },
+    {
+      "evidence": [
+        {
+          "source": "resume",
+          "text": "Built a maintenance log using Python for a campus lab"
+        }
+      ],
+      "level": 2,
+      "skill_id": "python"
+    },
+    {
+      "evidence": [
+        {
+          "source": "resume",
+          "text": "Built a data pipeline using Git for a co-op team"
+        }
+      ],
+      "level": 2,
+      "skill_id": "git"
+    },
+    {
+      "evidence": [
+        {
+          "source": "resume",
+          "text": "Used Swift in a course project on a reporting service"
+        }
+      ],
+      "level": 1,
+      "skill_id": "swift"
+    },
+    {
+      "evidence": [
+        {
+          "source": "resume",
+          "text": "Used Kotlin in a course project on a data pipeline"
+        }
+      ],
+      "level": 1,
+      "skill_id": "kotlin"
+    },
+    {
+      "evidence": [
+        {
+          "source": "resume",
+          "text": "Built a maintenance log using Communication for a co-op team"
+        }
+      ],
+      "level": 2,
+      "skill_id": "communication"
+    },
+    {
+      "evidence": [
+        {
+          "source": "chat",
+          "text": "I picked up Docker on a side project last summer"
+        }
+      ],
+      "level": 2,
+      "skill_id": "docker"
+    }
+  ],
+  "visa": {
+    "needs_sponsorship": true,
+    "status": "F-1",
+    "us_person": false
+  }
+}

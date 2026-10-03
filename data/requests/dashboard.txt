@@ -1,0 +1,1 @@
+Our sales and support numbers live in three different systems and every Monday someone spends hours pulling them into slides. We want a dashboard the leadership team can open any time to see weekly trends, with the data refreshed automatically. I don't know if this is a data person or a software person, I just know the current process doesn't scale.

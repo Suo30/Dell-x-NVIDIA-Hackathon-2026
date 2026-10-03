@@ -1,0 +1,1 @@
+I need someone to build an app for our ops team. Right now the warehouse leads track equipment checkouts and shift handoffs on paper and a shared spreadsheet, and things get lost. We want something they can use on their phones on the floor, with the data kept somewhere the office can see it. Not sure exactly what skills that takes or what level of person we need.

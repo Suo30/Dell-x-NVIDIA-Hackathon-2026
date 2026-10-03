@@ -1,0 +1,117 @@
+{
+  "availability": {
+    "start": "2027-01",
+    "type": "internship"
+  },
+  "bullets": [
+    {
+      "id": "b1",
+      "text": "Used React Native in a course project on a maintenance log"
+    },
+    {
+      "id": "b2",
+      "text": "Used MySQL in a course project on a scheduling tool"
+    },
+    {
+      "id": "b3",
+      "text": "Used Python in a course project on a maintenance log"
+    },
+    {
+      "id": "b4",
+      "text": "Used Git in a course project on a maintenance log"
+    },
+    {
+      "id": "b5",
+      "text": "Used Linux in a course project on a test harness"
+    },
+    {
+      "id": "b6",
+      "text": "Built a data pipeline using Communication for a hackathon team"
+    }
+  ],
+  "company_prefs": [
+    {
+      "company": "Acme",
+      "min_pay": null,
+      "stance": "never"
+    }
+  ],
+  "id": "c013",
+  "location": {
+    "preferred": [
+      "Providence, RI"
+    ],
+    "remote": "hybrid"
+  },
+  "name": "Oakley Ocelot",
+  "notes": [],
+  "program": "BS Data Science",
+  "school": "Northeastern University",
+  "skills": [
+    {
+      "evidence": [
+        {
+          "source": "resume",
+          "text": "Used React Native in a course project on a maintenance log"
+        }
+      ],
+      "level": 1,
+      "skill_id": "react-native"
+    },
+    {
+      "evidence": [
+        {
+          "source": "resume",
+          "text": "Used MySQL in a course project on a scheduling tool"
+        }
+      ],
+      "level": 1,
+      "skill_id": "mysql"
+    },
+    {
+      "evidence": [
+        {
+          "source": "resume",
+          "text": "Used Python in a course project on a maintenance log"
+        }
+      ],
+      "level": 1,
+      "skill_id": "python"
+    },
+    {
+      "evidence": [
+        {
+          "source": "resume",
+          "text": "Used Git in a course project on a maintenance log"
+        }
+      ],
+      "level": 1,
+      "skill_id": "git"
+    },
+    {
+      "evidence": [
+        {
+          "source": "resume",
+          "text": "Used Linux in a course project on a test harness"
+        }
+      ],
+      "level": 1,
+      "skill_id": "linux"
+    },
+    {
+      "evidence": [
+        {
+          "source": "resume",
+          "text": "Built a data pipeline using Communication for a hackathon team"
+        }
+      ],
+      "level": 2,
+      "skill_id": "communication"
+    }
+  ],
+  "visa": {
+    "needs_sponsorship": true,
+    "status": "F-1",
+    "us_person": false
+  }
+}

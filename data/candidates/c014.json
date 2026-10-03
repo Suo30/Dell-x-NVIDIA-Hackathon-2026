@@ -1,0 +1,122 @@
+{
+  "availability": {
+    "start": "2027-01",
+    "type": "internship"
+  },
+  "bullets": [
+    {
+      "id": "b1",
+      "text": "Built a prototype rig using SolidWorks for a student club"
+    },
+    {
+      "id": "b2",
+      "text": "Built a sensor dashboard using MATLAB for a research group"
+    },
+    {
+      "id": "b3",
+      "text": "Used CAD in a course project on a inventory tracker"
+    },
+    {
+      "id": "b4",
+      "text": "Used Finite Element Analysis in a course project on a scheduling tool"
+    },
+    {
+      "id": "b5",
+      "text": "Used GD&T in a course project on a sensor dashboard"
+    },
+    {
+      "id": "b6",
+      "text": "Used Leadership in a course project on a maintenance log"
+    }
+  ],
+  "company_prefs": [
+    {
+      "company": "Acme",
+      "min_pay": null,
+      "stance": "never"
+    },
+    {
+      "company": "Granite Robotics",
+      "min_pay": null,
+      "stance": "eager"
+    }
+  ],
+  "id": "c014",
+  "location": {
+    "preferred": [
+      "Boston, MA"
+    ],
+    "remote": "hybrid"
+  },
+  "name": "Tatum Tapir",
+  "notes": [],
+  "program": "MS Mechanical Engineering",
+  "school": "Northeastern University",
+  "skills": [
+    {
+      "evidence": [
+        {
+          "source": "resume",
+          "text": "Built a prototype rig using SolidWorks for a student club"
+        }
+      ],
+      "level": 2,
+      "skill_id": "solidworks"
+    },
+    {
+      "evidence": [
+        {
+          "source": "resume",
+          "text": "Built a sensor dashboard using MATLAB for a research group"
+        }
+      ],
+      "level": 2,
+      "skill_id": "matlab"
+    },
+    {
+      "evidence": [
+        {
+          "source": "resume",
+          "text": "Used CAD in a course project on a inventory tracker"
+        }
+      ],
+      "level": 1,
+      "skill_id": "cad"
+    },
+    {
+      "evidence": [
+        {
+          "source": "resume",
+          "text": "Used Finite Element Analysis in a course project on a scheduling tool"
+        }
+      ],
+      "level": 1,
+      "skill_id": "fea"
+    },
+    {
+      "evidence": [
+        {
+          "source": "resume",
+          "text": "Used GD&T in a course project on a sensor dashboard"
+        }
+      ],
+      "level": 1,
+      "skill_id": "gdt"
+    },
+    {
+      "evidence": [
+        {
+          "source": "resume",
+          "text": "Used Leadership in a course project on a maintenance log"
+        }
+      ],
+      "level": 1,
+      "skill_id": "leadership"
+    }
+  ],
+  "visa": {
+    "needs_sponsorship": false,
+    "status": "US citizen",
+    "us_person": true
+  }
+}

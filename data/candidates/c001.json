@@ -1,0 +1,99 @@
+{
+  "id": "c001",
+  "name": "Jordan Rivera",
+  "school": "Northeastern University",
+  "program": "MS Mechanical Engineering",
+  "visa": {
+    "status": "F-1",
+    "needs_sponsorship": true,
+    "us_person": false
+  },
+  "availability": {
+    "start": "2027-01",
+    "type": "co-op"
+  },
+  "location": {
+    "preferred": [
+      "Boston, MA"
+    ],
+    "remote": "hybrid"
+  },
+  "skills": [
+    {
+      "skill_id": "python",
+      "level": 2,
+      "evidence": [
+        {
+          "source": "resume",
+          "text": "Built a Python data pipeline that logged sensor readings from 12 test rigs into MySQL"
+        }
+      ]
+    },
+    {
+      "skill_id": "mysql",
+      "level": 2,
+      "evidence": [
+        {
+          "source": "resume",
+          "text": "Built a Python data pipeline that logged sensor readings from 12 test rigs into MySQL"
+        }
+      ]
+    },
+    {
+      "skill_id": "solidworks",
+      "level": 3,
+      "evidence": [
+        {
+          "source": "resume",
+          "text": "Designed a SolidWorks fixture that cut assembly time by 30%"
+        }
+      ]
+    },
+    {
+      "skill_id": "matlab",
+      "level": 2,
+      "evidence": [
+        {
+          "source": "resume",
+          "text": "Python, MySQL, SolidWorks, MATLAB, React Native, Git"
+        }
+      ]
+    },
+    {
+      "skill_id": "react-native",
+      "level": 1,
+      "evidence": [
+        {
+          "source": "resume",
+          "text": "React Native app for tracking lab equipment checkouts (course project)"
+        }
+      ]
+    },
+    {
+      "skill_id": "git",
+      "level": 2,
+      "evidence": [
+        {
+          "source": "resume",
+          "text": "Python, MySQL, SolidWorks, MATLAB, React Native, Git"
+        }
+      ]
+    }
+  ],
+  "bullets": [
+    {
+      "id": "b1",
+      "text": "Built a Python data pipeline that logged sensor readings from 12 test rigs into MySQL"
+    },
+    {
+      "id": "b2",
+      "text": "Designed a SolidWorks fixture that cut assembly time by 30%"
+    },
+    {
+      "id": "b3",
+      "text": "React Native app for tracking lab equipment checkouts (course project)"
+    }
+  ],
+  "company_prefs": [],
+  "notes": []
+}

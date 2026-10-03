@@ -1,0 +1,269 @@
+[
+  {
+    "id": "test:acme:1",
+    "source": "test",
+    "company": "Acme",
+    "title": "Full-Stack Mobile Engineer (Co-op)",
+    "url": "https://example.test/acme/1",
+    "location": "Boston, MA (hybrid)",
+    "description": "Own the ops team's mobile app and its MySQL backend. Team of 2 engineers, no designer.",
+    "requirements": [
+      {
+        "skill_id": "react-native",
+        "level": 2,
+        "importance": "must",
+        "evidence_text": "Own the React Native mobile app"
+      },
+      {
+        "skill_id": "mysql",
+        "level": 2,
+        "importance": "must",
+        "evidence_text": "Own the MySQL backend"
+      },
+      {
+        "skill_id": "python",
+        "level": 1,
+        "importance": "nice",
+        "evidence_text": "Python scripting is a plus"
+      },
+      {
+        "skill_id": "git",
+        "level": 1,
+        "importance": "nice",
+        "evidence_text": "Comfortable with Git"
+      }
+    ],
+    "sponsorship": true,
+    "clearance": "none",
+    "pay": "35-45 USD/hour",
+    "paid": 0
+  },
+  {
+    "id": "test:bluefin:2",
+    "source": "test",
+    "company": "Bluefin Logistics",
+    "title": "Mobile App Developer (Co-op)",
+    "url": "https://example.test/bluefin/2",
+    "location": "Boston, MA (hybrid)",
+    "description": "Same stack, no visa sponsorship.",
+    "requirements": [
+      {
+        "skill_id": "react-native",
+        "level": 2,
+        "importance": "must",
+        "evidence_text": "Own the React Native mobile app"
+      },
+      {
+        "skill_id": "mysql",
+        "level": 2,
+        "importance": "must",
+        "evidence_text": "Own the MySQL backend"
+      },
+      {
+        "skill_id": "python",
+        "level": 1,
+        "importance": "nice",
+        "evidence_text": "Python scripting is a plus"
+      },
+      {
+        "skill_id": "git",
+        "level": 1,
+        "importance": "nice",
+        "evidence_text": "Comfortable with Git"
+      }
+    ],
+    "sponsorship": false,
+    "clearance": "none",
+    "pay": "30-40 USD/hour",
+    "paid": 0
+  },
+  {
+    "id": "test:lonestar:3",
+    "source": "test",
+    "company": "Lonestar Devices",
+    "title": "Mobile Engineer Intern",
+    "url": "https://example.test/lonestar/3",
+    "location": "Austin, TX",
+    "description": "Onsite in Austin.",
+    "requirements": [
+      {
+        "skill_id": "react-native",
+        "level": 2,
+        "importance": "must",
+        "evidence_text": "Own the React Native mobile app"
+      },
+      {
+        "skill_id": "mysql",
+        "level": 2,
+        "importance": "must",
+        "evidence_text": "Own the MySQL backend"
+      },
+      {
+        "skill_id": "python",
+        "level": 1,
+        "importance": "nice",
+        "evidence_text": "Python scripting is a plus"
+      },
+      {
+        "skill_id": "git",
+        "level": 1,
+        "importance": "nice",
+        "evidence_text": "Comfortable with Git"
+      }
+    ],
+    "sponsorship": true,
+    "clearance": "none",
+    "pay": "40 USD/hour",
+    "paid": 0
+  },
+  {
+    "id": "test:northwind:4",
+    "source": "test",
+    "company": "Northwind Defense",
+    "title": "Software Co-op",
+    "url": "https://example.test/northwind/4",
+    "location": "Boston, MA (hybrid)",
+    "description": "Export-controlled work, US persons only.",
+    "requirements": [
+      {
+        "skill_id": "react-native",
+        "level": 2,
+        "importance": "must",
+        "evidence_text": "Own the React Native mobile app"
+      },
+      {
+        "skill_id": "mysql",
+        "level": 2,
+        "importance": "must",
+        "evidence_text": "Own the MySQL backend"
+      },
+      {
+        "skill_id": "python",
+        "level": 1,
+        "importance": "nice",
+        "evidence_text": "Python scripting is a plus"
+      },
+      {
+        "skill_id": "git",
+        "level": 1,
+        "importance": "nice",
+        "evidence_text": "Comfortable with Git"
+      }
+    ],
+    "sponsorship": true,
+    "clearance": "us_person",
+    "pay": null,
+    "paid": 0
+  },
+  {
+    "id": "test:granite:5",
+    "source": "test",
+    "company": "Granite Robotics",
+    "title": "Mechanical Design Co-op",
+    "url": "https://example.test/granite/5",
+    "location": "Boston, MA",
+    "description": "Design and test robot end effectors.",
+    "requirements": [
+      {
+        "skill_id": "solidworks",
+        "level": 2,
+        "importance": "must",
+        "evidence_text": "Design fixtures in SolidWorks"
+      },
+      {
+        "skill_id": "matlab",
+        "level": 2,
+        "importance": "must",
+        "evidence_text": "Analyze test data in MATLAB"
+      },
+      {
+        "skill_id": "python",
+        "level": 1,
+        "importance": "nice",
+        "evidence_text": "Python a plus"
+      },
+      {
+        "skill_id": "gdt",
+        "level": 1,
+        "importance": "nice",
+        "evidence_text": "Familiar with GD&T"
+      }
+    ],
+    "sponsorship": true,
+    "clearance": "none",
+    "pay": "28-34 USD/hour",
+    "paid": 0
+  },
+  {
+    "id": "test:cloudline:6",
+    "source": "test",
+    "company": "Cloudline",
+    "title": "Platform Engineer Intern",
+    "url": "https://example.test/cloudline/6",
+    "location": "Seattle, WA (remote)",
+    "description": "Infrastructure team.",
+    "requirements": [
+      {
+        "skill_id": "kubernetes",
+        "level": 2,
+        "importance": "must",
+        "evidence_text": "Run Kubernetes clusters"
+      },
+      {
+        "skill_id": "aws",
+        "level": 2,
+        "importance": "must",
+        "evidence_text": "Operate AWS infrastructure"
+      },
+      {
+        "skill_id": "go",
+        "level": 2,
+        "importance": "must",
+        "evidence_text": "Write Go services"
+      },
+      {
+        "skill_id": "typescript",
+        "level": 1,
+        "importance": "nice",
+        "evidence_text": "Some TypeScript"
+      }
+    ],
+    "sponsorship": null,
+    "clearance": "none",
+    "pay": null,
+    "paid": 0
+  },
+  {
+    "id": "test:harbor:7",
+    "source": "test",
+    "company": "Harbor Analytics",
+    "title": "Data Engineering Co-op",
+    "url": "https://example.test/harbor/7",
+    "location": "Remote (US)",
+    "description": "Paid listing.",
+    "requirements": [
+      {
+        "skill_id": "python",
+        "level": 2,
+        "importance": "must",
+        "evidence_text": "Build Python ETL jobs"
+      },
+      {
+        "skill_id": "mysql",
+        "level": 1,
+        "importance": "must",
+        "evidence_text": "Query MySQL"
+      },
+      {
+        "skill_id": "data-visualization",
+        "level": 1,
+        "importance": "nice",
+        "evidence_text": "Build dashboards"
+      }
+    ],
+    "sponsorship": null,
+    "clearance": "none",
+    "pay": "120,000 USD/year",
+    "paid": 1
+  }
+]

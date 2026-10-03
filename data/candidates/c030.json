@@ -1,0 +1,121 @@
+{
+  "availability": {
+    "start": "2026-07",
+    "type": "co-op"
+  },
+  "bullets": [
+    {
+      "id": "b1",
+      "text": "Built a sensor dashboard using C++ for a hackathon team"
+    },
+    {
+      "id": "b2",
+      "text": "Built a test harness using Embedded C for a hackathon team"
+    },
+    {
+      "id": "b3",
+      "text": "Used Arduino in a course project on a inventory tracker"
+    },
+    {
+      "id": "b4",
+      "text": "Built a scheduling tool using LabVIEW for a co-op team"
+    },
+    {
+      "id": "b5",
+      "text": "Used MATLAB in a course project on a test harness"
+    },
+    {
+      "id": "b6",
+      "text": "Built a test harness using Project Management for a hackathon team"
+    }
+  ],
+  "company_prefs": [],
+  "id": "c030",
+  "location": {
+    "preferred": [
+      "Providence, RI"
+    ],
+    "remote": "remote"
+  },
+  "name": "Wren Numbat",
+  "notes": [],
+  "program": "BS Mechatronics",
+  "school": "Northeastern University",
+  "skills": [
+    {
+      "evidence": [
+        {
+          "source": "resume",
+          "text": "Built a sensor dashboard using C++ for a hackathon team"
+        }
+      ],
+      "level": 2,
+      "skill_id": "cpp"
+    },
+    {
+      "evidence": [
+        {
+          "source": "resume",
+          "text": "Built a test harness using Embedded C for a hackathon team"
+        }
+      ],
+      "level": 2,
+      "skill_id": "embedded-c"
+    },
+    {
+      "evidence": [
+        {
+          "source": "resume",
+          "text": "Used Arduino in a course project on a inventory tracker"
+        }
+      ],
+      "level": 1,
+      "skill_id": "arduino"
+    },
+    {
+      "evidence": [
+        {
+          "source": "resume",
+          "text": "Built a scheduling tool using LabVIEW for a co-op team"
+        }
+      ],
+      "level": 2,
+      "skill_id": "labview"
+    },
+    {
+      "evidence": [
+        {
+          "source": "resume",
+          "text": "Used MATLAB in a course project on a test harness"
+        }
+      ],
+      "level": 1,
+      "skill_id": "matlab"
+    },
+    {
+      "evidence": [
+        {
+          "source": "resume",
+          "text": "Built a test harness using Project Management for a hackathon team"
+        }
+      ],
+      "level": 2,
+      "skill_id": "project-management"
+    },
+    {
+      "evidence": [
+        {
+          "source": "chat",
+          "text": "I didn't put it on my resume, but I use Docker every week at my part-time job"
+        }
+      ],
+      "level": 1,
+      "skill_id": "docker"
+    }
+  ],
+  "visa": {
+    "needs_sponsorship": true,
+    "status": "F-1",
+    "us_person": false
+  }
+}

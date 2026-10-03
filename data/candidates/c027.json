@@ -1,0 +1,121 @@
+{
+  "availability": {
+    "start": "2026-07",
+    "type": "internship"
+  },
+  "bullets": [
+    {
+      "id": "b1",
+      "text": "Built a prototype rig using JavaScript for a co-op team"
+    },
+    {
+      "id": "b2",
+      "text": "Built a maintenance log using HTML/CSS for a campus lab"
+    },
+    {
+      "id": "b3",
+      "text": "Built a maintenance log using React for a co-op team"
+    },
+    {
+      "id": "b4",
+      "text": "Built a reporting service using TypeScript for a co-op team"
+    },
+    {
+      "id": "b5",
+      "text": "Built a scheduling tool using Angular for a hackathon team"
+    },
+    {
+      "id": "b6",
+      "text": "Used Technical Writing in a course project on a data pipeline"
+    }
+  ],
+  "company_prefs": [],
+  "id": "c027",
+  "location": {
+    "preferred": [
+      "Providence, RI"
+    ],
+    "remote": "remote"
+  },
+  "name": "Parker Wombat",
+  "notes": [],
+  "program": "BS Computer Science",
+  "school": "Wentworth Institute of Technology",
+  "skills": [
+    {
+      "evidence": [
+        {
+          "source": "resume",
+          "text": "Built a prototype rig using JavaScript for a co-op team"
+        }
+      ],
+      "level": 2,
+      "skill_id": "javascript"
+    },
+    {
+      "evidence": [
+        {
+          "source": "resume",
+          "text": "Built a maintenance log using HTML/CSS for a campus lab"
+        }
+      ],
+      "level": 2,
+      "skill_id": "html-css"
+    },
+    {
+      "evidence": [
+        {
+          "source": "resume",
+          "text": "Built a maintenance log using React for a co-op team"
+        }
+      ],
+      "level": 2,
+      "skill_id": "react"
+    },
+    {
+      "evidence": [
+        {
+          "source": "resume",
+          "text": "Built a reporting service using TypeScript for a co-op team"
+        }
+      ],
+      "level": 2,
+      "skill_id": "typescript"
+    },
+    {
+      "evidence": [
+        {
+          "source": "resume",
+          "text": "Built a scheduling tool using Angular for a hackathon team"
+        }
+      ],
+      "level": 2,
+      "skill_id": "angular"
+    },
+    {
+      "evidence": [
+        {
+          "source": "resume",
+          "text": "Used Technical Writing in a course project on a data pipeline"
+        }
+      ],
+      "level": 1,
+      "skill_id": "technical-writing"
+    },
+    {
+      "evidence": [
+        {
+          "source": "chat",
+          "text": "I picked up Docker on a side project last summer"
+        }
+      ],
+      "level": 1,
+      "skill_id": "docker"
+    }
+  ],
+  "visa": {
+    "needs_sponsorship": false,
+    "status": "US citizen",
+    "us_person": true
+  }
+}
