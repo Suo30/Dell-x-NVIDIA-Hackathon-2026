@@ -20,6 +20,6 @@
     {"id": "b1", "text": "Built a React Native app for booking study rooms, used by 400 students"},
     {"id": "b2", "text": "Wrote Python scripts to clean survey data for a course project"}
   ],
-  "company_prefs": [{"company": "Acme", "stance": "only_strong_offer", "min_pay": 45}],
+  "company_prefs": [{"company": "Acme", "stance": "only_strong_offer", "min_pay": null}],
   "notes": ["Resume undersells backend work; MySQL experience came up in chat"]
 }
