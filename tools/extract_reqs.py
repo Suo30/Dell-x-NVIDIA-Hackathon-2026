@@ -95,10 +95,9 @@ def _hourly_text(pay):
     if not isinstance(period, str) or period.strip().lower() not in PER_HOUR:
         return None
     hours = PER_HOUR[period.strip().lower()]
-    lo = pay["min"] / hours
-    if _is_number(pay.get("max")):
-        return f"{lo:.0f}-{pay['max'] / hours:.0f} USD/hour"
-    return f"{lo:.0f} USD/hour"
+    lo = f"{pay['min'] / hours:.0f}"
+    hi = f"{pay['max'] / hours:.0f}" if _is_number(pay.get("max")) else lo
+    return f"{lo} USD/hour" if hi == lo else f"{lo}-{hi} USD/hour"
 
 
 def _sponsorship(value):

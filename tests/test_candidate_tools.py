@@ -176,6 +176,7 @@ def test_committed_snapshots_load():
     ({"min": 104000, "max": 124800, "period": "year"}, "50-60 USD/hour"),
     ({"min": 40, "max": None, "period": "hour"}, "40 USD/hour"),
     ({"min": 40, "period": "hour"}, "40 USD/hour"),
+    ({"min": 114400, "max": 114400, "period": "year"}, "55 USD/hour"),
     ({"min": 40, "max": 50, "period": "fortnight"}, None),
     ({"min": "40", "max": 50, "period": "hour"}, None),
     ({"min": 0, "max": None, "period": "hour"}, None),
