@@ -1,7 +1,8 @@
 import os
 from pathlib import Path
 
-DATA_DIR = Path(".data")
+# Relative to the working directory; tools/screen_resumes.py points it at work/recruit.
+DATA_DIR = Path(os.getenv("RECRUIT_DATA_DIR", ".data"))
 JOBS_DIR = DATA_DIR / "jobs"
 
 MIN_RESUMES = 1

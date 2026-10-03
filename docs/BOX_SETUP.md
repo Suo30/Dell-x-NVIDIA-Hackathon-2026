@@ -82,6 +82,15 @@ The `binaries` path in `infra/job-boards.yaml` (`/usr/bin/python3`) is a guess. 
 trigger one request to Greenhouse from the sandbox (ladder step 6), and if it shows as blocked, copy the
 binary path it reports into the YAML and run `policy-add` again.
 
+Applicant screening (`screen_resumes.py --consent-confirmed`) also needs the public GitHub API:
+
+```sh
+nemoclaw my-assistant policy-add --from-file infra/recruit-research.yaml
+```
+
+`scripts/push_to_sandbox.sh` runs `pip install -r requirements-recruit.txt` in the sandbox (needs PyPI
+reachable). Without it every tool except `screen_resumes.py` still works.
+
 ## (f) Get the repo into the sandbox
 
 First open a shell inside the sandbox. `TODO(verify)`: exact command (check `nemoclaw --help`).

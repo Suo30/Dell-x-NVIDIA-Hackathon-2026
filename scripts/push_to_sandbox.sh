@@ -32,6 +32,7 @@ nemoclaw "$SB" exec -- sh -c "
   cp -r $W/repo/skills/role-architect $W/repo/skills/career-matcher $W/skills/
   cp $W/repo/prompts/system.md $W/AGENTS.md
   rm -f $REMOTE
+  python3 -m pip install -q -r $W/repo/requirements-recruit.txt || echo 'WARN: pip install failed; screen_resumes.py will return an error until it works'
   [ -f $W/repo/.env ] || echo 'NOTE: no .env in sandbox repo yet, create it once'
   ls $W/repo $W/skills
 "

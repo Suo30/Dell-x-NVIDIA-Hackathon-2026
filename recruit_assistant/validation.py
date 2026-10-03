@@ -1,6 +1,6 @@
 from pathlib import Path
 
-from fastapi import HTTPException, UploadFile, status
+from fastapi import HTTPException, status
 
 from recruit_assistant.config import (
     ALLOWED_RESUME_CONTENT_TYPES,
@@ -46,7 +46,7 @@ def validate_job_description(job_description: str) -> str:
     return description
 
 
-def validate_resume_count(resumes: list[UploadFile]) -> None:
+def validate_resume_count(resumes: list) -> None:
     count = len(resumes)
     if count < MIN_RESUMES:
         raise HTTPException(
@@ -60,8 +60,10 @@ def validate_resume_count(resumes: list[UploadFile]) -> None:
         )
 
 
-def validate_resume_file(upload: UploadFile, content: bytes) -> str:
-    filename = upload.filename or "resume"
+def validate_resume_file(
+    filename: str | None, content_type: str | None, content: bytes
+) -> str:
+    filename = filename or "resume"
     extension = Path(filename).suffix.lower()
 
     if extension not in ALLOWED_RESUME_EXTENSIONS:
@@ -74,7 +76,7 @@ def validate_resume_file(upload: UploadFile, content: bytes) -> str:
             ),
         )
 
-    content_type = (upload.content_type or "").split(";")[0].strip().lower()
+    content_type = (content_type or "").split(";")[0].strip().lower()
     if content_type and content_type not in ALLOWED_RESUME_CONTENT_TYPES:
         raise HTTPException(
             status_code=status.HTTP_422_UNPROCESSABLE_ENTITY,

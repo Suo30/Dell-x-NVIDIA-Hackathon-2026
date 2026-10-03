@@ -25,6 +25,7 @@ from recruit_assistant.models import (
     CandidateResearch,
     IdentityHints,
     JobIntake,
+    JobRubric,
     ResearchRequest,
     ResearchRun,
     SourceEvidence,
@@ -33,8 +34,18 @@ from recruit_assistant.models import (
 from recruit_assistant.storage import get_resume_text, write_research_run
 
 
-def run_research(job: JobIntake, request: ResearchRequest) -> ResearchRun:
-    if not request.consent_confirmed:
+def run_research(
+    job: JobIntake,
+    request: ResearchRequest,
+    rubric: JobRubric | None = None,
+) -> ResearchRun:
+    """rubric: fixed criteria (e.g. from an approved role); built by the model when None."""
+    web_research = (
+        request.use_candidate_provided_links
+        or request.discover_public_profiles
+        or bool(request.candidates)
+    )
+    if web_research and not request.consent_confirmed:
         raise HTTPException(
             status_code=status.HTTP_422_UNPROCESSABLE_ENTITY,
             detail=(
@@ -52,10 +63,11 @@ def run_research(job: JobIntake, request: ResearchRequest) -> ResearchRun:
             detail=f"Unknown resume IDs: {', '.join(unknown_ids)}",
         )
 
-    try:
-        rubric = build_job_rubric(job.job_description)
-    except LocalModelUnavailable:
-        rubric = None
+    if rubric is None:
+        try:
+            rubric = build_job_rubric(job.job_description)
+        except LocalModelUnavailable:
+            rubric = None
 
     candidates: list[CandidateResearch] = []
     for resume in job.resumes:

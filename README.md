@@ -32,13 +32,15 @@ bash tests/smoke.sh                        # Windows: run from Git Bash
 
 Employer-side resume screener merged from `b2b-sneha`: a job description plus 1 to 20 resumes become one
 role rubric, consent-gated GitHub/LinkedIn evidence and a top-30% shortlist for human review, all scored by
-the local Qwen model. It is a separate FastAPI + Streamlit app and does not use `tools/`, the DB or `skills.json`.
+the local Qwen model. The agent calls it through `tools/screen_resumes.py` (`--role ID` builds the rubric from the approved role's
+`skills.json` requirements); a FastAPI API and Streamlit UI are also available for local use.
 
 ```bash
 pip install -r requirements-recruit.txt
 streamlit run streamlit_app.py                    # UI, http://localhost:8501
 uvicorn recruit_assistant.main:app --reload --port 8010   # REST API, http://127.0.0.1:8010/docs (8000 is the model tunnel)
-python -m pytest -q tests/test_workflow.py
+python tools/screen_resumes.py --role r001 --resumes work/applicants/   # agent tool, one JSON object
+python -m pytest -q tests/test_workflow.py tests/test_screen_resumes.py
 ```
 
 Model calls go through the shared `tools/_llm.py` client, so it uses the same box model, `.env` and

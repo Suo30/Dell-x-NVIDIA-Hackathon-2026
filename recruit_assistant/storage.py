@@ -1,4 +1,5 @@
 import hashlib
+import mimetypes
 import uuid
 from pathlib import Path
 
@@ -54,9 +55,46 @@ async def create_job_intake(
     resumes: list[UploadFile],
     professional_research_consent: bool = False,
 ) -> JobIntake:
+    files = [
+        (upload.filename, upload.content_type, await upload.read())
+        for upload in resumes
+    ]
+    return store_job_intake(
+        job_name,
+        job_description,
+        files,
+        professional_research_consent=professional_research_consent,
+    )
+
+
+def create_job_intake_from_paths(
+    job_name: str,
+    job_description: str,
+    paths: list[Path],
+    professional_research_consent: bool = False,
+) -> JobIntake:
+    files = [
+        (path.name, mimetypes.guess_type(path.name)[0], path.read_bytes())
+        for path in paths
+    ]
+    return store_job_intake(
+        job_name,
+        job_description,
+        files,
+        professional_research_consent=professional_research_consent,
+    )
+
+
+def store_job_intake(
+    job_name: str,
+    job_description: str,
+    files: list[tuple[str | None, str | None, bytes]],
+    professional_research_consent: bool = False,
+) -> JobIntake:
+    """files: (filename, content_type, content) per resume."""
     validated_name = validate_job_name(job_name)
     validated_description = validate_job_description(job_description)
-    validate_resume_count(resumes)
+    validate_resume_count(files)
 
     job_id = str(uuid.uuid4())
     created_at = utc_now_iso()
@@ -66,9 +104,8 @@ async def create_job_intake(
 
     resume_records: list[ResumeRecord] = []
 
-    for upload in resumes:
-        content = await upload.read()
-        extension = validate_resume_file(upload, content)
+    for filename, content_type, content in files:
+        extension = validate_resume_file(filename, content_type, content)
         content_hash = hashlib.sha256(content).hexdigest()
         resume_id = str(uuid.uuid4())
         stored_filename = f"{resume_id}{extension}"
@@ -97,9 +134,9 @@ async def create_job_intake(
         resume_records.append(
             ResumeRecord(
                 resume_id=resume_id,
-                original_filename=upload.filename or stored_filename,
+                original_filename=filename or stored_filename,
                 stored_filename=stored_filename,
-                content_type=upload.content_type,
+                content_type=content_type,
                 size_bytes=len(content),
                 content_hash=content_hash,
                 uploaded_at=utc_now_iso(),

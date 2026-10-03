@@ -1,0 +1,25 @@
+# screen_resumes.py --consent-confirmed: public GitHub evidence for resume-linked profiles.
+# Same binary path caveat as job-boards.yaml.
+# LinkedIn goes through Jina Reader (r.jina.ai), a cloud fetch of the public page; left out so
+# nothing but the URL fetch leaves the box. Blocked sources show as "unavailable", never as a gap.
+preset:
+  name: recruit-research
+  description: "Public GitHub API for applicant evidence"
+network_policies:
+  recruit-research:
+    name: recruit-research
+    endpoints:
+      - host: api.github.com
+        port: 443
+        protocol: rest
+        enforcement: enforce
+        rules:
+          - allow: { method: GET, path: "/users/**" }
+      # - host: r.jina.ai
+      #   port: 443
+      #   protocol: rest
+      #   enforcement: enforce
+      #   rules:
+      #     - allow: { method: GET, path: "/**" }
+    binaries:
+      - { path: /usr/bin/python3 }

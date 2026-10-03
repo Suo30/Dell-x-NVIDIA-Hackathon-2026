@@ -52,6 +52,7 @@ run show_role        tools/show_role.py --role "$ROLE"
 run approve_role     tools/approve_role.py --role "$ROLE"
 JOB="$(get job_id)"; JOB="${JOB:-internal:$ROLE}"
 run match_candidates tools/match_candidates.py --role "$ROLE" --limit 5
+run screen_resumes   tools/screen_resumes.py --title "Ops app engineer" --jd-file data/requests/ops-app.txt --resumes tests/fixtures/resume.txt
 run match_jobs       tools/match_jobs.py --candidate "$CAND" --limit 5
 run apply            tools/apply.py --candidate "$CAND" --job "$JOB"
 
