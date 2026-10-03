@@ -8,12 +8,20 @@
 
 JSON columns (*_json) hold json.dumps() strings; callers json.loads() them.
 """
+import sqlite3
+from datetime import datetime, timezone
+
 import _config
 
 
 def connect():
-    raise NotImplementedError("_db.connect (owner: D)")
+    _config.DB_PATH.parent.mkdir(parents=True, exist_ok=True)
+    conn = sqlite3.connect(str(_config.DB_PATH))
+    conn.row_factory = sqlite3.Row
+    conn.executescript(_config.SCHEMA_PATH.read_text(encoding="utf-8"))
+    conn.commit()
+    return conn
 
 
 def now():
-    raise NotImplementedError("_db.now (owner: D)")
+    return datetime.now(timezone.utc).strftime("%Y-%m-%dT%H:%M:%SZ")
