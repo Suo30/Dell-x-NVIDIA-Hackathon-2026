@@ -218,3 +218,11 @@ __marimo__/
 
 # Streamlit
 .streamlit/secrets.toml
+
+# --- Hackathon project ---
+*.db
+*.db-journal
+*.db-wal
+*.db-shm
+work/*
+!work/.gitkeep
