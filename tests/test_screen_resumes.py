@@ -121,3 +121,47 @@ def test_title_mode_routes_to_human_review_when_model_unavailable(resumes, mock_
     assert out["rubric_source"] == "unavailable"
     assert out["shortlist_count"] == 0
     assert {r["route"] for r in out["results"]} == {"human_review_required"}
+    assert "Fit review: Backend" in out["slack"]
+    assert out["notice"] in out["slack"]
+
+
+def test_slack_report_lists_scores_and_gaps():
+    text = screen_resumes.slack_report(
+        "Senior Applied AI Scientist",
+        [
+            {
+                "file": "sneha.pdf",
+                "rank": 1,
+                "top_30_percent": True,
+                "evidence_score": 95.0,
+                "coverage": 70.0,
+                "fit_label": "strong_role_alignment",
+                "required_met": "4/4",
+                "hard_gaps": [],
+                "summary": "ok",
+                "strengths": ["RAG"],
+                "unknowns": [],
+            }
+        ],
+        "Decision support only.",
+    )
+    assert "*Fit review: Senior Applied AI Scientist*" in text
+    assert "95.0/100" in text
+    assert "Strong demonstrated alignment" in text
+    assert "Decision support only." in text
+
+
+def test_slack_report_orders_like_streamlit():
+    def row(file, rank, top, score):
+        return {
+            "file": file, "rank": rank, "top_30_percent": top, "evidence_score": score,
+            "coverage": 50.0, "fit_label": "potential_role_alignment", "required_met": "1/2",
+            "hard_gaps": [], "summary": "no decision", "strengths": [], "unknowns": [],
+        }
+
+    # results arrive in rank order; unranked rows keep file order
+    results = [row("a.txt", 1, True, 80.0), row("b.txt", 2, False, 40.0),
+               row("c.txt", None, False, 70.0), row("d.txt", None, False, None)]
+    text = screen_resumes.slack_report("Backend", results, "n")
+    headers = [line for line in text.splitlines() if line.startswith("*") and line.endswith(".txt*")]
+    assert headers == ["*a.txt*", "*c.txt*", "*b.txt*", "*d.txt*"]

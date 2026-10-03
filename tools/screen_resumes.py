@@ -3,7 +3,7 @@
 Contract (MASTER_CONTEXT section 8):
     screen_resumes.py --role ID --resumes PATH [PATH ...] [--consent-confirmed] [--discover]
     screen_resumes.py --title "X" --jd-file PATH --resumes PATH [PATH ...] [...]
-    -> {"intake_id", "run_id", "role_id", "rubric_source", "shortlist_count", "results": [...], "notice"}
+    -> {"intake_id", "run_id", "role_id", "rubric_source", "shortlist_count", "results": [...], "slack", "notice"}
 
 --role builds the rubric in code from the role's private requirements (same skills.json
 requirements match_candidates uses). --title/--jd-file lets the model write the rubric.
@@ -168,8 +168,53 @@ def screen(role_id, title, jd_text, resumes, consent, discover):
         "rubric_source": "role" if role_id else ("model" if run.rubric else "unavailable"),
         "shortlist_count": run.shortlist_count,
         "results": results,
+        "slack": slack_report(title or "Uploaded role", results, run.safety_notice),
         "notice": run.safety_notice,
     }
+
+
+FIT_LABELS = {
+    "strong_role_alignment": "Strong demonstrated alignment",
+    "potential_role_alignment": "Potential alignment — review needed",
+    "insufficient_demonstrated_evidence": (
+        "Insufficient demonstrated evidence — review needed"
+    ),
+    "analysis_unavailable": "Analysis unavailable — review needed",
+}
+
+
+def slack_report(job_name, results, notice):
+    """Short Slack-safe report. Same scores and candidate order as Streamlit."""
+    lines = [
+        f"*Fit review: {job_name}*",
+        "Evidence-first scoring. This is not a hiring decision.",
+    ]
+    shortlisted = [row for row in results if row["top_30_percent"]]
+    if shortlisted:
+        lines.append("*Top 30% for human review*")
+        for row in shortlisted:
+            lines.append(f"• #{row['rank']} {row['file']} — {row['evidence_score']:.1f}/100")
+    # Streamlit order: shortlist first, then by score
+    ordered = sorted(
+        results,
+        key=lambda r: (r["top_30_percent"], -1 if r["evidence_score"] is None else r["evidence_score"]),
+        reverse=True,
+    )
+    for row in ordered:
+        lines.append(f"*{row['file']}*")
+        if row["evidence_score"] is None:
+            lines.append(f"• {row['summary']}")
+            continue
+        lines.append(f"• Score {row['evidence_score']:.1f}/100 · {FIT_LABELS[row['fit_label']]}")
+        lines.append(f"• Required criteria {row['required_met']} · coverage {row['coverage']:.0f}%")
+        if row["hard_gaps"]:
+            lines.append("• Hard gaps: " + "; ".join(row["hard_gaps"][:3]))
+        if row["strengths"]:
+            lines.append("• Strengths: " + "; ".join(row["strengths"][:2]))
+        if row["unknowns"]:
+            lines.append("• Evidence did not show: " + "; ".join(row["unknowns"][:2]))
+    lines.append(notice)
+    return "\n".join(lines)
 
 
 def main():
