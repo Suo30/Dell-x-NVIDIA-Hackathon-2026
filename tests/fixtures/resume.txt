@@ -1,0 +1,14 @@
+Jordan Rivera (synthetic)
+MS Mechanical Engineering, Northeastern University, expected 2027
+F-1 student, available for co-op January 2027, Boston MA
+
+EXPERIENCE
+Robotics Co-op, Acme Automation (Jul-Dec 2025)
+- Built a Python data pipeline that logged sensor readings from 12 test rigs into MySQL
+- Designed a SolidWorks fixture that cut assembly time by 30%
+
+PROJECTS
+- React Native app for tracking lab equipment checkouts (course project)
+
+SKILLS
+Python, MySQL, SolidWorks, MATLAB, React Native, Git
