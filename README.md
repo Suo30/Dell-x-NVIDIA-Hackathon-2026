@@ -27,3 +27,19 @@ bash tests/smoke.sh                        # Windows: run from Git Bash
 - Settings come from `tools/_config.py` (reads `.env`, then env vars).
 - `smoke.sh` shows each tool as `OK`, `ERR` (returns an error, e.g. still a stub) or `FAIL` (broke the contract).
 - Never commit `.env`, tokens or `*.db`. Scratch files go in `work/` (gitignored).
+
+## Evidence-first recruiting assistant (`recruit_assistant/`)
+
+Employer-side resume screener merged from `b2b-sneha`: a job description plus 1 to 20 resumes become one
+role rubric, consent-gated GitHub/LinkedIn evidence and a top-30% shortlist for human review, all scored by
+the local Qwen model. It is a separate FastAPI + Streamlit app and does not use `tools/`, the DB or `skills.json`.
+
+```bash
+pip install -r requirements-recruit.txt
+streamlit run streamlit_app.py                    # UI, http://localhost:8501
+uvicorn recruit_assistant.main:app --reload --port 8010   # REST API, http://127.0.0.1:8010/docs (8000 is the model tunnel)
+python -m pytest -q tests/test_workflow.py
+```
+
+Model calls go through the shared `tools/_llm.py` client, so it uses the same box model, `.env` and
+`MOCK_LLM` as the tools. Details in [recruit_assistant/README.md](recruit_assistant/README.md).

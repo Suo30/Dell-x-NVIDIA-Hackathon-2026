@@ -83,6 +83,7 @@ repo/
   .gitignore                 .env, *.db, __pycache__, work/
   requirements.txt           pypdf only (optional, PDF resumes); core is stdlib only
   requirements-dev.txt       pytest, ruff; laptops only
+  requirements-recruit.txt   fastapi, streamlit, pydantic, python-docx; recruit_assistant only, not the sandbox
   pytest.ini                 testpaths=tests; live model tests excluded unless -m live
   .gitattributes             forces LF on .sh/.py/.md so Windows checkouts run on the box
   db/schema.sql
@@ -129,6 +130,9 @@ repo/
     test_*.py                unit tests per shared module; test_llm_live.py needs the tunnel
     fixtures/                resume.txt, conversation.txt (smoke.sh); profile.json (Jordan = c001),
                              jobs.json (7 test jobs covering match, flags and hidden)
+  recruit_assistant/         B2B evidence-first resume screener (from b2b-sneha): JD + 1-20 resumes ->
+                             rubric, GitHub/LinkedIn evidence, top-30% shortlist. Model calls via tools/_llm.py
+  streamlit_app.py           local UI for recruit_assistant (laptop/box host, not the Slack channel)
   work/                      gitignored scratch: resumes and conversations the agent writes at runtime
 ```
 
