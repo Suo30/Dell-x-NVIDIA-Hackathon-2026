@@ -89,8 +89,9 @@ def _merge(old, new):
     keep = new if new_rank > old_rank else old
     whys = [old["why"]] + ([new["why"]] if new["why"] != old["why"] else [])
     merged = {**keep, "why": "; ".join(whys)}
-    if "evidence_text" not in merged and "evidence_text" in old:
-        merged["evidence_text"] = old["evidence_text"]
+    for source in (old, new):
+        if "evidence_text" not in merged and "evidence_text" in source:
+            merged["evidence_text"] = source["evidence_text"]
     return merged
 
 

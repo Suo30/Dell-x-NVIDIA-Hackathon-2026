@@ -107,3 +107,13 @@ def test_clean_public_coerces():
 def test_clean_public_requires_title():
     with pytest.raises(ValueError, match="public.title"):
         _role.clean_public({"title": " ", "description": "D"}, "t")
+
+
+def test_clean_dedupe_keeps_evidence_from_either_entry():
+    raw = [
+        {"skill_id": "mysql", "level": 2, "importance": "must", "why": "data"},
+        {"skill_id": "mysql", "level": 1, "importance": "nice", "why": "data", "evidence_text": "MySQL a plus"},
+    ]
+    reqs, _ = _role.clean_requirements(raw, "t")
+    assert reqs == [{"skill_id": "mysql", "level": 2, "importance": "must", "why": "data",
+                     "evidence_text": "MySQL a plus"}]
