@@ -11,6 +11,7 @@ import json
 import _cli
 import _db
 import _llm
+import _profile
 import _taxonomy
 
 SYSTEM = """You turn a student's resume (plus optional chat notes) into a structured
@@ -59,12 +60,6 @@ _MOCK = {
 }
 
 
-def _next_candidate_id(conn):
-    rows = conn.execute("SELECT id FROM candidates").fetchall()
-    numbers = [int(row["id"][1:]) for row in rows if row["id"][1:].isdigit()]
-    return f"c{(max(numbers) + 1) if numbers else 1:03d}"
-
-
 def _extract(resume_text, notes):
     system = SYSTEM.format(taxonomy=_taxonomy.prompt_block())
     user = f"RESUME:\n{resume_text}"
@@ -97,7 +92,7 @@ def main():
         })
 
     conn = _db.connect()
-    candidate_id = _next_candidate_id(conn)
+    candidate_id = _db.next_id(conn, "candidates", "c")
     profile = {
         "id": candidate_id,
         "name": args.name,
@@ -111,6 +106,7 @@ def main():
         "company_prefs": [],
         "notes": [args.notes] if args.notes else [],
     }
+    _profile.validate(profile, candidate_id)
     conn.execute(
         "INSERT INTO candidates (id, name, profile_json, consent_auto, synthetic, updated) "
         "VALUES (?, ?, ?, 1, 0, ?)",

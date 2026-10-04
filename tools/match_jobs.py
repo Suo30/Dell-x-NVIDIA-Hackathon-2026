@@ -11,14 +11,18 @@ import json
 import _cli
 import _db
 import _match
+import _taxonomy
 
 
-def _top_evidence(detail_requirements):
-    ranked = sorted(
-        (r for r in detail_requirements if r["evidence"]),
-        key=lambda r: (r["match"] != "strong", r["importance"] != "must"),
-    )
-    return ranked[0]["evidence"] if ranked else None
+def _category_scores(detail_requirements):
+    """Split the weighted score (7.2) by taxonomy category: soft vs technical.
+    Bonus breakdown, not part of the frozen 6.5 schema."""
+    skill_category = {s["id"]: s["category"] for s in _taxonomy.load()}
+    groups = {"technical": [], "soft": []}
+    for req in detail_requirements:
+        bucket = "soft" if skill_category[req["skill_id"]] == "soft" else "technical"
+        groups[bucket].append(req)
+    return {name: _match.score(reqs) for name, reqs in groups.items() if reqs}
 
 
 def main():
@@ -41,8 +45,12 @@ def main():
 
     rows = []
     for job_row in job_rows:
+        requirements = json.loads(job_row["requirements_json"])
+        if not requirements:
+            continue  # extract_reqs found nothing matchable; evaluate() only takes extracted jobs
         job = {
-            "requirements": json.loads(job_row["requirements_json"]),
+            "id": job_row["id"],
+            "requirements": requirements,
             "sponsorship": None if job_row["sponsorship"] is None else bool(job_row["sponsorship"]),
             "clearance": job_row["clearance"],
             "location": job_row["location"],
@@ -51,36 +59,32 @@ def main():
             "paid": job_row["paid"],
         }
         result = _match.evaluate(job, profile)
-        route, pref_note = _match.apply_prefs(result["route"], job, profile)
-        if route == "excluded":
+        if result["route"] == "excluded":
             continue
-        result["detail"]["pref_note"] = pref_note
 
         conn.execute(
             "INSERT INTO matches (job_id, candidate_id, score, route, detail_json, created) "
             "VALUES (?, ?, ?, ?, ?, ?) "
             "ON CONFLICT(job_id, candidate_id) DO UPDATE SET "
             "score = excluded.score, route = excluded.route, detail_json = excluded.detail_json, created = excluded.created",
-            (job_row["id"], args.candidate, result["score"], route, json.dumps(result["detail"]), _db.now()),
+            (job_row["id"], args.candidate, result["score"], result["route"],
+             json.dumps(result["detail"]), _db.now()),
         )
 
-        eager = any(
-            pref["company"].lower() == (job_row["company"] or "").lower() and pref["stance"] == "eager"
-            for pref in profile["company_prefs"]
-        )
         rows.append({
             "job_id": job_row["id"],
             "company": job_row["company"],
             "title": job_row["title"],
             "url": job_row["url"],
             "score": result["score"],
-            "route": route,
+            "route": result["route"],
             "flags": result["detail"]["flags"],
             "gaps_text": result["detail"]["gaps_text"],
-            "top_evidence": _top_evidence(result["detail"]["requirements"]),
-            "category_scores": result["detail"]["category_scores"],
-            "pref_note": pref_note,
-            "_sort": {"route": route, "score": result["score"], "eager": eager, "paid": bool(job_row["paid"])},
+            "top_evidence": _match.top_evidence(result["detail"]),
+            "category_scores": _category_scores(result["detail"]["requirements"]),
+            "pref_note": result["detail"]["pref_note"],
+            "_sort": {"route": result["route"], "score": result["score"],
+                      "eager": result["eager"], "paid": bool(job_row["paid"])},
         })
 
     conn.commit()
