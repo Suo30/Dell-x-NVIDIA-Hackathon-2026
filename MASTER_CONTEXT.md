@@ -11,10 +11,10 @@ Status at writing: 13:00. Feature freeze 16:00. Code stop and submission 18:00.
 | # | Question | Blocks |
 |---|---|---|
 | Q1 | Names for Persons B, C, D (section 5) | Nothing, cosmetic |
-| Q2 | "30" means 30 candidate profiles, plus about 3 employer requests for the demo? | D's data work |
+| Q2 | "30" means 30 candidate profiles, plus about 3 employer requests for the demo? Implemented that way (`data/candidates/c001..c030`, `data/requests/*.txt`) | D's data work |
 | Q3 | Workspace path inside the sandbox (where the repo must live on the box) | A, then everyone's deploy |
 | Q4 | Who merges PRs into `main` (one person only) | Branch workflow |
-| Q5 | Stretch threshold and "closable gap" rule in section 7.4 are proposals. Accept or change | B and C scoring |
+| Q5 | Stretch threshold and "closable gap" rule in section 7.4 are proposals, implemented as written. Also open: `only_strong_offer` compares the **lower** bound of a pay range to `min_pay` (7.5). Accept or change | B and C scoring |
 | Q6 | Glassdoor dropped (not an ATS, no public jobs API). OK? | B's fetchers |
 
 ---
@@ -83,6 +83,7 @@ repo/
   .gitignore                 .env, *.db, __pycache__, work/
   requirements.txt           pypdf only (optional, PDF resumes); core is stdlib only
   requirements-dev.txt       pytest, ruff; laptops only
+  pytest.ini                 testpaths=tests; live model tests excluded unless -m live
   .gitattributes             forces LF on .sh/.py/.md so Windows checkouts run on the box
   db/schema.sql
   skills/
@@ -94,9 +95,11 @@ repo/
     _config.py               reads .env + env vars: REPO, DATA_DIR, DB_PATH, LLM_*, MOCK
     _cli.py                  run(main): catches everything, prints one JSON object, exits 0
     _llm.py                  chat_json(): calls model, strips <think> and fences, parses JSON, 1 retry
-    _db.py                   connect(), init from schema.sql
-    _taxonomy.py             load skills.json, alias -> skill_id
-    _match.py                score(), route(), flags(), sort(). Pure code, no model
+    _db.py                   connect(), now(), next_id(); init from schema.sql
+    _taxonomy.py             load(), resolve(alias) -> skill_id, name_of(), prompt_block()
+    _match.py                evaluate() plus score/flags/route/prefs/sort helpers. Pure code, no model
+    _profile.py              validate(profile, source): structural check of a 6.2 profile
+    aux_math.py              eq/ge/lt for float comparisons (AGENTS.md)
     ingest_profile.py        candidate
     update_profile.py        candidate
     fetch_jobs.py            candidate
@@ -112,16 +115,20 @@ repo/
   data/
     skills.json
     companies.json           ATS sources: [{"company","source","slug"}]
-    candidates/*.json        synthetic profiles
-    requests/*.txt           demo employer requests
+    candidates/*.json        synthetic profiles: c001, c002 hand-written heroes; c003..c030 generated
+    requests/*.txt           demo employer requests: ops-app, test-rig, dashboard
     snapshots/*.json         offline copies of fetched jobs
   scripts/
-    gen_candidates.py        builds the 30 synthetic profiles
-    seed_db.py               init DB, load candidates + snapshots
+    gen_candidates.py        writes c003..c030 (deterministic, --seed 2026, --out DIR); never touches c001/c002
+    seed_db.py               init DB, load candidates (+ test jobs with --with-test-jobs); not snapshots
     demo_reset.sh            reset DB to demo start state
+    check_local.sh           laptop gate before deploying: pytest, smoke, skill lint, [--live] model
   tests/
     smoke.sh                 runs every tool once with MOCK_LLM=1
-    fixtures/                resume.txt, conversation.txt used by smoke.sh
+    conftest.py              puts tools/ and scripts/ on sys.path; fixtures tmp_db, mock_llm
+    test_*.py                unit tests per shared module; test_llm_live.py needs the tunnel
+    fixtures/                resume.txt, conversation.txt (smoke.sh); profile.json (Jordan = c001),
+                             jobs.json (7 test jobs covering match, flags and hidden)
   work/                      gitignored scratch: resumes and conversations the agent writes at runtime
 ```
 
@@ -132,6 +139,12 @@ Env vars:
 - `LLM_MODEL`: `nvidia/Qwen3.6-35B-A3B-NVFP4`
 - `DB_PATH`, `DATA_DIR`
 - `MOCK_LLM=1`: returns canned JSON for offline dev and smoke tests
+
+Model response quirks (verified on the box, handled in `_llm.py`):
+- Read only `choices[0].message.content`. The thinking text arrives in a separate `reasoning` field (not `reasoning_content`); ignore it.
+- `content` starts with `"\n\n"`; strip before parsing.
+- Thinking tokens count against `max_tokens`. A small limit can end with empty `content` and `finish_reason == "length"`. `chat_json` defaults to `max_tokens=4000`; do not lower it for extraction calls. `length` is returned as `{"error": "model output truncated ..."}`, not retried.
+- `chat_json` never raises for model trouble. Callers check `"error" in out` first and pass it through, then validate the keys they need and return `{"error": "model output missing <key>"}`.
 
 ---
 
@@ -152,6 +165,14 @@ ssh -L 8000:127.0.0.1:8000 dell@172.20.65.171
 
 This works the same in macOS Terminal and Windows PowerShell. After it connects, `LLM_BASE_URL=http://127.0.0.1:8000/v1` works on your laptop. Use `MOCK_LLM=1` when the box is busy.
 
+Laptop testing (run before opening a PR or asking A to deploy). Windows: use Git Bash.
+```
+python -m venv .venv && .venv/Scripts/python -m pip install -r requirements-dev.txt   # macOS: .venv/bin/python
+bash scripts/check_local.sh          # offline: pytest, smoke, skill lint, mock _llm, candidate files current
+bash scripts/check_local.sh --live   # plus tunnel, real _llm self-check and live tests (tunnel open)
+```
+Never touches `app.db`: pytest uses temp DBs and smoke uses `work/smoke.db`. If you change `gen_candidates.py`, rerun it and commit the regenerated `data/candidates/c003..c030.json`; a test fails when they drift.
+
 Git: one branch per person (`a-platform`, `b-candidate`, `c-employer`, `d-data`). Small PRs, one merger (Q4). Shared modules merge first. Only A pulls `main` onto the box.
 
 ---
@@ -161,8 +182,10 @@ Git: one branch per person (`a-platform`, `b-candidate`, `c-employer`, `d-data`)
 ### 6.1 Skills taxonomy: `data/skills.json`
 
 ```json
-[{"id": "mysql", "name": "MySQL", "category": "database", "aliases": ["my sql", "mariadb"]}]
+[{"id": "mysql", "name": "MySQL", "category": "data", "aliases": ["my sql", "mariadb"]}]
 ```
+
+`category` takes one of `backend | frontend | mobile | data | cloud-devops | mechanical | soft`. `id` matches `^[a-z0-9-]+$` (`cpp`, `csharp`, `nodejs`, `dotnet`, `ci-cd`). Aliases are lowercase. Lookup lowercases, treats `-` and `_` as spaces and collapses whitespace, but keeps other punctuation (`c++`, `c#` stay distinct). No two skills may share a normalized id, name or alias; `_taxonomy` raises on load if they do.
 
 Levels, used everywhere:
 - 1: used in a course or small project
@@ -193,6 +216,10 @@ Target size is 40 to 60 skills across backend, frontend, mobile, data, cloud/dev
 ```
 
 `remote` takes one of `any | remote | hybrid | onsite`. `stance` takes one of `eager | neutral | only_strong_offer | never`. `min_pay` is hourly USD, or null.
+
+`_profile.validate(profile, source)` enforces this before any profile is stored (seed_db, ingest_profile, update_profile) and raises `ValueError("<source>: <field> <problem>")`. Beyond the enums above: every key shown is present; `visa` has all three keys with booleans; every `company_prefs` entry has `company`, `stance` and a `min_pay` key (null allowed); each `skill_id` is in `skills.json` and appears once; `level` is 1, 2 or 3; every skill has at least one evidence entry with `source` `resume` or `chat`; bullet ids are unique.
+
+New candidate and role ids come only from `_db.next_id(conn, "candidates", "c")` / `(conn, "roles", "r")`, giving `c031`, `r001` and so on.
 
 ### 6.3 Role: `roles.public_json` and `roles.private_json`
 
@@ -237,39 +264,55 @@ This is the same shape as `private.requirements`, with an added `"evidence_text"
 }
 ```
 
+`evidence` is the first evidence text of that profile skill. `gaps_text` has one line per non-strong requirement, in requirement order; a missing skill reads "... (no evidence found)".
+
 ---
 
 ## 7. Logic (B owns `_match.py`. Everything here is pure code)
 
 ### 7.1 Per-requirement match
 - **strong:** candidate level is at or above the required level
-- **partial:** candidate level is exactly one below the required level
-- **none:** skill absent, or two or more levels below
+- **partial:** candidate has the skill (level 1 or more) exactly one level below the required level
+- **none:** skill absent (even when only level 1 is required), or two or more levels below
 
 ### 7.2 Score
 
 Weights are must = 2 and nice = 1. Credit is strong = 1, partial = 0.5 and none = 0.
 
-score = 100 × Σ(weight × credit) / Σ weight
+score = 100 × Σ(weight × credit) / Σ weight, rounded to 1 decimal. A job with no requirements raises; match only extracted jobs.
 
 ### 7.3 Flags (kept separate from the score)
-- `sponsorship`: the candidate needs sponsorship and the job says no
+Always in this order:
+- `sponsorship`: the candidate needs sponsorship and the job says no (`sponsorship` false). Unknown (null) never flags.
 - `clearance`: the job requires `us_person` or `clearance` and the candidate is not a US person
-- `location`: the job is onsite somewhere outside the preferred locations and the candidate's remote preference is not `any`
+- `location`: the job location is set, does not contain "remote" or "hybrid", contains none of the candidate's preferred cities (text before the first comma), and the candidate's remote preference is not `any`
 
 ### 7.4 Routes (PROPOSAL, see Q5)
 - **match:** score of 70 or more and no flags
-- **stretch:** score from 50 to 69, with every gap closable. A gap is closable when it is partial, or when it is a nice-to-have marked none. A must-have marked none is never closable.
+- **stretch:** score from 50 (inclusive) to under 70, with every gap closable. A gap is closable when it is partial, or when it is a nice-to-have marked none. A must-have marked none is never closable. Strong requirements are not gaps (`closable` false).
 - **review:** any flag. Shown with the flag; a human decides.
 - **hidden:** everything else. Never shown to employers as a "no".
 
 ### 7.5 Company preferences (candidate side)
-- `never`: the job is excluded.
-- `only_strong_offer`: shown only if the pay is known and at or above `min_pay`. Otherwise it routes to review with a `pref_note`.
-- `eager`: sorted first within the same route.
+Matched to `job.company` case-insensitively. Prefs only demote; they never promote.
+- `never`: route becomes `excluded`. This also drops the candidate from that company's employer shortlist.
+- `only_strong_offer`: applies to `match` and `stretch` only. Kept if pay is known and at or above `min_pay` (null `min_pay` is satisfied by any known pay). Otherwise `review` with `pref_note` `"only_strong_offer: pay not stated"` or `"only_strong_offer: pay 35 below minimum 45"`.
+- `eager`: sets `eager` true, sorted first within the same route.
+
+Pay is parsed by `parse_hourly`: the first number in the text (so the lower bound of a range, pending Q5); over 1000 is treated as annual and divided by 2080; no number gives null.
 
 ### 7.6 Sort order
-Route (match, then stretch, then review), then score descending, then `eager`, then `paid`.
+Route (match, stretch, review, hidden, excluded), then score descending, then `eager`, then `paid`.
+
+### 7.7 `_match` API
+```
+evaluate(job, profile) -> {"score", "route", "eager", "detail"}   # detail is 6.5
+    job: {"id", "requirements", "sponsorship", "clearance", "location", "company", "pay", "paid"}
+apply_prefs(route, job, profile) -> (route, pref_note | None, eager)
+top_evidence(detail, n=2) -> [str]   # strong must evidence, then strong nice, deduplicated
+sort_key(row)                        # row has route, score, eager, paid
+```
+Jobs read from the DB need `sponsorship` converted from 0/1/NULL to false/true/null before `evaluate`.
 
 ---
 
@@ -309,7 +352,16 @@ match_candidates.py --role ID [--limit 10]
 
 Clarifying questions live in the `role-architect` skill instructions, not in a tool. The agent asks up to 3 questions (seniority, location/remote, sponsorship, pay, timeline), writes the whole exchange to a file, then calls `draft_role.py`.
 
-Job IDs follow the pattern `{source}:{company}:{native_id}`. Internal roles use `internal:{role_id}`.
+Job IDs follow the pattern `{source}:{company}:{native_id}`. Internal roles use `internal:{role_id}`. Test fixture jobs use `test:{company}:{n}`.
+
+**Scripts (D)**
+```
+gen_candidates.py [--seed 2026] [--out DIR]
+    -> {"written": 28, "dir"}            # c003..c030 only
+seed_db.py [--reset] [--with-test-jobs]
+    -> {"db", "candidates": n, "jobs": m}
+```
+`seed_db` validates every candidate file and loads `data/candidates/*.json`. `--with-test-jobs` also loads `tests/fixtures/jobs.json` (source `test`) for laptop testing; `demo_reset.sh` never passes it. Snapshots are loaded by `fetch_jobs.py --offline`, not by `seed_db`.
 
 ---
 
@@ -337,7 +389,7 @@ CREATE TABLE IF NOT EXISTS applications (
   PRIMARY KEY (job_id, candidate_id));
 ```
 
-Use `INSERT OR IGNORE` for jobs. New jobs are detected by diffing IDs.
+Use `INSERT OR IGNORE` for jobs. New jobs are detected by diffing IDs. `_db.connect()` runs this schema on every open (safe, all `IF NOT EXISTS`); close connections when done (Windows cannot delete an open DB file). Timestamps come from `_db.now()` (UTC ISO-8601).
 
 ---
 
@@ -399,6 +451,7 @@ Cut order if behind: tailoring, then the cron scan, then Workday, then file uplo
 | Slack setup stalls | Telegram fallback at 13:50 |
 | Sandbox rebuild wipes files | Add the channel before deploying code; the repo is the source of truth |
 | Model returns bad JSON or `<think>` text | `_llm.py` strips, retries once, then returns `{"error"}`; keep prompts small |
+| Thinking eats `max_tokens`, empty `content` | Keep `max_tokens` at 4000 for extraction; `finish_reason == "length"` returns an error; `check_local.sh --live` asserts `finish_reason == "stop"` |
 | Allowlist silently blocks job APIs | Test from inside the sandbox early; `--offline` reads snapshots |
 | One box, four people | Laptops use the tunnel; only A deploys; `MOCK_LLM=1` when the box is busy |
 | Memory pressure | Watch `nvidia-smi` and `docker stats`; no second model |

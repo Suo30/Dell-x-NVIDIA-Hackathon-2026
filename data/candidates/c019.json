@@ -1,0 +1,111 @@
+{
+  "availability": {
+    "start": "2027-01",
+    "type": "full-time"
+  },
+  "bullets": [
+    {
+      "id": "b1",
+      "text": "Built a inventory tracker using Python for a research group"
+    },
+    {
+      "id": "b2",
+      "text": "Built a data pipeline using SQL for a co-op team"
+    },
+    {
+      "id": "b3",
+      "text": "Built a maintenance log using Machine Learning for a campus lab"
+    },
+    {
+      "id": "b4",
+      "text": "Built a inventory tracker using Data Visualization for a research group"
+    },
+    {
+      "id": "b5",
+      "text": "Used Excel in a course project on a test harness"
+    },
+    {
+      "id": "b6",
+      "text": "Used Leadership in a course project on a inventory tracker"
+    }
+  ],
+  "company_prefs": [],
+  "id": "c019",
+  "location": {
+    "preferred": [
+      "Seattle, WA"
+    ],
+    "remote": "hybrid"
+  },
+  "name": "Parker Narwhal",
+  "notes": [],
+  "program": "BS Data Science",
+  "school": "Northeastern University",
+  "skills": [
+    {
+      "evidence": [
+        {
+          "source": "resume",
+          "text": "Built a inventory tracker using Python for a research group"
+        }
+      ],
+      "level": 2,
+      "skill_id": "python"
+    },
+    {
+      "evidence": [
+        {
+          "source": "resume",
+          "text": "Built a data pipeline using SQL for a co-op team"
+        }
+      ],
+      "level": 2,
+      "skill_id": "sql"
+    },
+    {
+      "evidence": [
+        {
+          "source": "resume",
+          "text": "Built a maintenance log using Machine Learning for a campus lab"
+        }
+      ],
+      "level": 2,
+      "skill_id": "machine-learning"
+    },
+    {
+      "evidence": [
+        {
+          "source": "resume",
+          "text": "Built a inventory tracker using Data Visualization for a research group"
+        }
+      ],
+      "level": 2,
+      "skill_id": "data-visualization"
+    },
+    {
+      "evidence": [
+        {
+          "source": "resume",
+          "text": "Used Excel in a course project on a test harness"
+        }
+      ],
+      "level": 1,
+      "skill_id": "excel"
+    },
+    {
+      "evidence": [
+        {
+          "source": "resume",
+          "text": "Used Leadership in a course project on a inventory tracker"
+        }
+      ],
+      "level": 1,
+      "skill_id": "leadership"
+    }
+  ],
+  "visa": {
+    "needs_sponsorship": false,
+    "status": "US citizen",
+    "us_person": true
+  }
+}

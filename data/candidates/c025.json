@@ -1,0 +1,111 @@
+{
+  "availability": {
+    "start": "2027-01",
+    "type": "co-op"
+  },
+  "bullets": [
+    {
+      "id": "b1",
+      "text": "Built a maintenance log using Linux for a research group"
+    },
+    {
+      "id": "b2",
+      "text": "Built a reporting service using Git for a hackathon team"
+    },
+    {
+      "id": "b3",
+      "text": "Used Java in a course project on a maintenance log"
+    },
+    {
+      "id": "b4",
+      "text": "Built a sensor dashboard using Node.js for a campus lab"
+    },
+    {
+      "id": "b5",
+      "text": "Built a reporting service using C# for a co-op team"
+    },
+    {
+      "id": "b6",
+      "text": "Used Project Management in a course project on a data pipeline"
+    }
+  ],
+  "company_prefs": [],
+  "id": "c025",
+  "location": {
+    "preferred": [
+      "Boston, MA"
+    ],
+    "remote": "remote"
+  },
+  "name": "Kai Capybara",
+  "notes": [],
+  "program": "MS Computer Science",
+  "school": "Northeastern University",
+  "skills": [
+    {
+      "evidence": [
+        {
+          "source": "resume",
+          "text": "Built a maintenance log using Linux for a research group"
+        }
+      ],
+      "level": 2,
+      "skill_id": "linux"
+    },
+    {
+      "evidence": [
+        {
+          "source": "resume",
+          "text": "Built a reporting service using Git for a hackathon team"
+        }
+      ],
+      "level": 2,
+      "skill_id": "git"
+    },
+    {
+      "evidence": [
+        {
+          "source": "resume",
+          "text": "Used Java in a course project on a maintenance log"
+        }
+      ],
+      "level": 1,
+      "skill_id": "java"
+    },
+    {
+      "evidence": [
+        {
+          "source": "resume",
+          "text": "Built a sensor dashboard using Node.js for a campus lab"
+        }
+      ],
+      "level": 2,
+      "skill_id": "nodejs"
+    },
+    {
+      "evidence": [
+        {
+          "source": "resume",
+          "text": "Built a reporting service using C# for a co-op team"
+        }
+      ],
+      "level": 2,
+      "skill_id": "csharp"
+    },
+    {
+      "evidence": [
+        {
+          "source": "resume",
+          "text": "Used Project Management in a course project on a data pipeline"
+        }
+      ],
+      "level": 1,
+      "skill_id": "project-management"
+    }
+  ],
+  "visa": {
+    "needs_sponsorship": true,
+    "status": "F-1",
+    "us_person": false
+  }
+}

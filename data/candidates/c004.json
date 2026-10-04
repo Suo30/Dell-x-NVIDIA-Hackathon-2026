@@ -1,0 +1,131 @@
+{
+  "availability": {
+    "start": "2027-01",
+    "type": "full-time"
+  },
+  "bullets": [
+    {
+      "id": "b1",
+      "text": "Built a data pipeline using React Native for a capstone project"
+    },
+    {
+      "id": "b2",
+      "text": "Built a reporting service using MySQL for a hackathon team"
+    },
+    {
+      "id": "b3",
+      "text": "Built a inventory tracker using Python for a hackathon team"
+    },
+    {
+      "id": "b4",
+      "text": "Built a test harness using Git for a student club"
+    },
+    {
+      "id": "b5",
+      "text": "Built a inventory tracker using Flutter for a research group"
+    },
+    {
+      "id": "b6",
+      "text": "Used JavaScript in a course project on a sensor dashboard"
+    },
+    {
+      "id": "b7",
+      "text": "Built a prototype rig using Leadership for a capstone project"
+    }
+  ],
+  "company_prefs": [
+    {
+      "company": "Acme",
+      "min_pay": null,
+      "stance": "eager"
+    }
+  ],
+  "id": "c004",
+  "location": {
+    "preferred": [
+      "Boston, MA"
+    ],
+    "remote": "any"
+  },
+  "name": "Lane Capybara",
+  "notes": [],
+  "program": "MS Computer Science",
+  "school": "Northeastern University",
+  "skills": [
+    {
+      "evidence": [
+        {
+          "source": "resume",
+          "text": "Built a data pipeline using React Native for a capstone project"
+        }
+      ],
+      "level": 2,
+      "skill_id": "react-native"
+    },
+    {
+      "evidence": [
+        {
+          "source": "resume",
+          "text": "Built a reporting service using MySQL for a hackathon team"
+        }
+      ],
+      "level": 2,
+      "skill_id": "mysql"
+    },
+    {
+      "evidence": [
+        {
+          "source": "resume",
+          "text": "Built a inventory tracker using Python for a hackathon team"
+        }
+      ],
+      "level": 2,
+      "skill_id": "python"
+    },
+    {
+      "evidence": [
+        {
+          "source": "resume",
+          "text": "Built a test harness using Git for a student club"
+        }
+      ],
+      "level": 2,
+      "skill_id": "git"
+    },
+    {
+      "evidence": [
+        {
+          "source": "resume",
+          "text": "Built a inventory tracker using Flutter for a research group"
+        }
+      ],
+      "level": 2,
+      "skill_id": "flutter"
+    },
+    {
+      "evidence": [
+        {
+          "source": "resume",
+          "text": "Used JavaScript in a course project on a sensor dashboard"
+        }
+      ],
+      "level": 1,
+      "skill_id": "javascript"
+    },
+    {
+      "evidence": [
+        {
+          "source": "resume",
+          "text": "Built a prototype rig using Leadership for a capstone project"
+        }
+      ],
+      "level": 2,
+      "skill_id": "leadership"
+    }
+  ],
+  "visa": {
+    "needs_sponsorship": false,
+    "status": "US citizen",
+    "us_person": true
+  }
+}

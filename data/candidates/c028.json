@@ -1,0 +1,117 @@
+{
+  "availability": {
+    "start": "2026-07",
+    "type": "co-op"
+  },
+  "bullets": [
+    {
+      "id": "b1",
+      "text": "Built a maintenance log using JavaScript for a research group"
+    },
+    {
+      "id": "b2",
+      "text": "Built a prototype rig using HTML/CSS for a co-op team"
+    },
+    {
+      "id": "b3",
+      "text": "Built a sensor dashboard using Node.js for a research group"
+    },
+    {
+      "id": "b4",
+      "text": "Used Flutter in a course project on a reporting service"
+    },
+    {
+      "id": "b5",
+      "text": "Used Data Visualization in a course project on a test harness"
+    },
+    {
+      "id": "b6",
+      "text": "Used Communication in a course project on a maintenance log"
+    }
+  ],
+  "company_prefs": [
+    {
+      "company": "Northwind Defense",
+      "min_pay": null,
+      "stance": "never"
+    }
+  ],
+  "id": "c028",
+  "location": {
+    "preferred": [
+      "New York, NY"
+    ],
+    "remote": "hybrid"
+  },
+  "name": "Avery Tapir",
+  "notes": [],
+  "program": "BS Computer Science",
+  "school": "Northeastern University",
+  "skills": [
+    {
+      "evidence": [
+        {
+          "source": "resume",
+          "text": "Built a maintenance log using JavaScript for a research group"
+        }
+      ],
+      "level": 2,
+      "skill_id": "javascript"
+    },
+    {
+      "evidence": [
+        {
+          "source": "resume",
+          "text": "Built a prototype rig using HTML/CSS for a co-op team"
+        }
+      ],
+      "level": 2,
+      "skill_id": "html-css"
+    },
+    {
+      "evidence": [
+        {
+          "source": "resume",
+          "text": "Built a sensor dashboard using Node.js for a research group"
+        }
+      ],
+      "level": 2,
+      "skill_id": "nodejs"
+    },
+    {
+      "evidence": [
+        {
+          "source": "resume",
+          "text": "Used Flutter in a course project on a reporting service"
+        }
+      ],
+      "level": 1,
+      "skill_id": "flutter"
+    },
+    {
+      "evidence": [
+        {
+          "source": "resume",
+          "text": "Used Data Visualization in a course project on a test harness"
+        }
+      ],
+      "level": 1,
+      "skill_id": "data-visualization"
+    },
+    {
+      "evidence": [
+        {
+          "source": "resume",
+          "text": "Used Communication in a course project on a maintenance log"
+        }
+      ],
+      "level": 1,
+      "skill_id": "communication"
+    }
+  ],
+  "visa": {
+    "needs_sponsorship": true,
+    "status": "F-1",
+    "us_person": false
+  }
+}

@@ -1,0 +1,121 @@
+{
+  "availability": {
+    "start": "2027-01",
+    "type": "co-op"
+  },
+  "bullets": [
+    {
+      "id": "b1",
+      "text": "Used React Native in a course project on a scheduling tool"
+    },
+    {
+      "id": "b2",
+      "text": "Used MySQL in a course project on a reporting service"
+    },
+    {
+      "id": "b3",
+      "text": "Used Python in a course project on a prototype rig"
+    },
+    {
+      "id": "b4",
+      "text": "Used Git in a course project on a reporting service"
+    },
+    {
+      "id": "b5",
+      "text": "Used SQL in a course project on a maintenance log"
+    },
+    {
+      "id": "b6",
+      "text": "Built a reporting service using Technical Writing for a capstone project"
+    }
+  ],
+  "company_prefs": [],
+  "id": "c012",
+  "location": {
+    "preferred": [
+      "Boston, MA"
+    ],
+    "remote": "any"
+  },
+  "name": "Sage Tamarin",
+  "notes": [],
+  "program": "MS Mechatronics",
+  "school": "Northeastern University",
+  "skills": [
+    {
+      "evidence": [
+        {
+          "source": "resume",
+          "text": "Used React Native in a course project on a scheduling tool"
+        }
+      ],
+      "level": 1,
+      "skill_id": "react-native"
+    },
+    {
+      "evidence": [
+        {
+          "source": "resume",
+          "text": "Used MySQL in a course project on a reporting service"
+        }
+      ],
+      "level": 1,
+      "skill_id": "mysql"
+    },
+    {
+      "evidence": [
+        {
+          "source": "resume",
+          "text": "Used Python in a course project on a prototype rig"
+        }
+      ],
+      "level": 1,
+      "skill_id": "python"
+    },
+    {
+      "evidence": [
+        {
+          "source": "resume",
+          "text": "Used Git in a course project on a reporting service"
+        }
+      ],
+      "level": 1,
+      "skill_id": "git"
+    },
+    {
+      "evidence": [
+        {
+          "source": "resume",
+          "text": "Used SQL in a course project on a maintenance log"
+        }
+      ],
+      "level": 1,
+      "skill_id": "sql"
+    },
+    {
+      "evidence": [
+        {
+          "source": "resume",
+          "text": "Built a reporting service using Technical Writing for a capstone project"
+        }
+      ],
+      "level": 2,
+      "skill_id": "technical-writing"
+    },
+    {
+      "evidence": [
+        {
+          "source": "chat",
+          "text": "I've also used Docker at my last job"
+        }
+      ],
+      "level": 2,
+      "skill_id": "docker"
+    }
+  ],
+  "visa": {
+    "needs_sponsorship": false,
+    "status": "US citizen",
+    "us_person": true
+  }
+}

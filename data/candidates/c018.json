@@ -1,0 +1,132 @@
+{
+  "availability": {
+    "start": "2027-05",
+    "type": "internship"
+  },
+  "bullets": [
+    {
+      "id": "b1",
+      "text": "Built a test harness using Python for a student club"
+    },
+    {
+      "id": "b2",
+      "text": "Built a scheduling tool using SQL for a hackathon team"
+    },
+    {
+      "id": "b3",
+      "text": "Used pandas in a course project on a inventory tracker"
+    },
+    {
+      "id": "b4",
+      "text": "Used PostgreSQL in a course project on a prototype rig"
+    },
+    {
+      "id": "b5",
+      "text": "Used MongoDB in a course project on a scheduling tool"
+    },
+    {
+      "id": "b6",
+      "text": "Built a inventory tracker using Communication for a campus lab"
+    }
+  ],
+  "company_prefs": [
+    {
+      "company": "Acme",
+      "min_pay": null,
+      "stance": "neutral"
+    },
+    {
+      "company": "Harbor Analytics",
+      "min_pay": 50,
+      "stance": "only_strong_offer"
+    }
+  ],
+  "id": "c018",
+  "location": {
+    "preferred": [
+      "Boston, MA"
+    ],
+    "remote": "hybrid"
+  },
+  "name": "Tatum Tamarin",
+  "notes": [],
+  "program": "MS Data Science",
+  "school": "Northeastern University",
+  "skills": [
+    {
+      "evidence": [
+        {
+          "source": "resume",
+          "text": "Built a test harness using Python for a student club"
+        }
+      ],
+      "level": 2,
+      "skill_id": "python"
+    },
+    {
+      "evidence": [
+        {
+          "source": "resume",
+          "text": "Built a scheduling tool using SQL for a hackathon team"
+        }
+      ],
+      "level": 2,
+      "skill_id": "sql"
+    },
+    {
+      "evidence": [
+        {
+          "source": "resume",
+          "text": "Used pandas in a course project on a inventory tracker"
+        }
+      ],
+      "level": 1,
+      "skill_id": "pandas"
+    },
+    {
+      "evidence": [
+        {
+          "source": "resume",
+          "text": "Used PostgreSQL in a course project on a prototype rig"
+        }
+      ],
+      "level": 1,
+      "skill_id": "postgresql"
+    },
+    {
+      "evidence": [
+        {
+          "source": "resume",
+          "text": "Used MongoDB in a course project on a scheduling tool"
+        }
+      ],
+      "level": 1,
+      "skill_id": "mongodb"
+    },
+    {
+      "evidence": [
+        {
+          "source": "resume",
+          "text": "Built a inventory tracker using Communication for a campus lab"
+        }
+      ],
+      "level": 2,
+      "skill_id": "communication"
+    },
+    {
+      "evidence": [
+        {
+          "source": "chat",
+          "text": "I picked up Docker on a side project last summer"
+        }
+      ],
+      "level": 2,
+      "skill_id": "docker"
+    }
+  ],
+  "visa": {
+    "needs_sponsorship": true,
+    "status": "F-1",
+    "us_person": false
+  }
+}

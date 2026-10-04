@@ -1,0 +1,111 @@
+{
+  "availability": {
+    "start": "2027-05",
+    "type": "co-op"
+  },
+  "bullets": [
+    {
+      "id": "b1",
+      "text": "Used React Native in a course project on a test harness"
+    },
+    {
+      "id": "b2",
+      "text": "Used MySQL in a course project on a inventory tracker"
+    },
+    {
+      "id": "b3",
+      "text": "Used Python in a course project on a test harness"
+    },
+    {
+      "id": "b4",
+      "text": "Used Git in a course project on a scheduling tool"
+    },
+    {
+      "id": "b5",
+      "text": "Used C++ in a course project on a scheduling tool"
+    },
+    {
+      "id": "b6",
+      "text": "Built a data pipeline using Teamwork for a capstone project"
+    }
+  ],
+  "company_prefs": [],
+  "id": "c011",
+  "location": {
+    "preferred": [
+      "New York, NY"
+    ],
+    "remote": "hybrid"
+  },
+  "name": "Umber Puffin",
+  "notes": [],
+  "program": "BS Computer Science",
+  "school": "Northeastern University",
+  "skills": [
+    {
+      "evidence": [
+        {
+          "source": "resume",
+          "text": "Used React Native in a course project on a test harness"
+        }
+      ],
+      "level": 1,
+      "skill_id": "react-native"
+    },
+    {
+      "evidence": [
+        {
+          "source": "resume",
+          "text": "Used MySQL in a course project on a inventory tracker"
+        }
+      ],
+      "level": 1,
+      "skill_id": "mysql"
+    },
+    {
+      "evidence": [
+        {
+          "source": "resume",
+          "text": "Used Python in a course project on a test harness"
+        }
+      ],
+      "level": 1,
+      "skill_id": "python"
+    },
+    {
+      "evidence": [
+        {
+          "source": "resume",
+          "text": "Used Git in a course project on a scheduling tool"
+        }
+      ],
+      "level": 1,
+      "skill_id": "git"
+    },
+    {
+      "evidence": [
+        {
+          "source": "resume",
+          "text": "Used C++ in a course project on a scheduling tool"
+        }
+      ],
+      "level": 1,
+      "skill_id": "cpp"
+    },
+    {
+      "evidence": [
+        {
+          "source": "resume",
+          "text": "Built a data pipeline using Teamwork for a capstone project"
+        }
+      ],
+      "level": 2,
+      "skill_id": "teamwork"
+    }
+  ],
+  "visa": {
+    "needs_sponsorship": false,
+    "status": "Permanent resident",
+    "us_person": true
+  }
+}

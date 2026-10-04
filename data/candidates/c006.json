@@ -1,0 +1,135 @@
+{
+  "availability": {
+    "start": "2027-01",
+    "type": "internship"
+  },
+  "bullets": [
+    {
+      "id": "b1",
+      "text": "Led the design of a reporting service using React Native for a hackathon team"
+    },
+    {
+      "id": "b2",
+      "text": "Built a reporting service using MySQL for a capstone project"
+    },
+    {
+      "id": "b3",
+      "text": "Built a inventory tracker using Python for a co-op team"
+    },
+    {
+      "id": "b4",
+      "text": "Built a maintenance log using Git for a capstone project"
+    },
+    {
+      "id": "b5",
+      "text": "Used REST APIs in a course project on a sensor dashboard"
+    },
+    {
+      "id": "b6",
+      "text": "Used Swift in a course project on a data pipeline"
+    },
+    {
+      "id": "b7",
+      "text": "Built a scheduling tool using Teamwork for a capstone project"
+    }
+  ],
+  "company_prefs": [],
+  "id": "c006",
+  "location": {
+    "preferred": [
+      "New York, NY"
+    ],
+    "remote": "hybrid"
+  },
+  "name": "Reese Wombat",
+  "notes": [],
+  "program": "MS Computer Science",
+  "school": "Northeastern University",
+  "skills": [
+    {
+      "evidence": [
+        {
+          "source": "resume",
+          "text": "Led the design of a reporting service using React Native for a hackathon team"
+        }
+      ],
+      "level": 3,
+      "skill_id": "react-native"
+    },
+    {
+      "evidence": [
+        {
+          "source": "resume",
+          "text": "Built a reporting service using MySQL for a capstone project"
+        }
+      ],
+      "level": 2,
+      "skill_id": "mysql"
+    },
+    {
+      "evidence": [
+        {
+          "source": "resume",
+          "text": "Built a inventory tracker using Python for a co-op team"
+        }
+      ],
+      "level": 2,
+      "skill_id": "python"
+    },
+    {
+      "evidence": [
+        {
+          "source": "resume",
+          "text": "Built a maintenance log using Git for a capstone project"
+        }
+      ],
+      "level": 2,
+      "skill_id": "git"
+    },
+    {
+      "evidence": [
+        {
+          "source": "resume",
+          "text": "Used REST APIs in a course project on a sensor dashboard"
+        }
+      ],
+      "level": 1,
+      "skill_id": "rest-api"
+    },
+    {
+      "evidence": [
+        {
+          "source": "resume",
+          "text": "Used Swift in a course project on a data pipeline"
+        }
+      ],
+      "level": 1,
+      "skill_id": "swift"
+    },
+    {
+      "evidence": [
+        {
+          "source": "resume",
+          "text": "Built a scheduling tool using Teamwork for a capstone project"
+        }
+      ],
+      "level": 2,
+      "skill_id": "teamwork"
+    },
+    {
+      "evidence": [
+        {
+          "source": "chat",
+          "text": "I didn't put it on my resume, but I use Docker every week at my part-time job"
+        }
+      ],
+      "level": 2,
+      "skill_id": "docker"
+    }
+  ],
+  "visa": {
+    "needs_sponsorship": false,
+    "status": "Permanent resident",
+    "us_person": true
+  }
+}

@@ -1,0 +1,111 @@
+{
+  "availability": {
+    "start": "2027-05",
+    "type": "co-op"
+  },
+  "bullets": [
+    {
+      "id": "b1",
+      "text": "Built a inventory tracker using SolidWorks for a research group"
+    },
+    {
+      "id": "b2",
+      "text": "Built a sensor dashboard using MATLAB for a student club"
+    },
+    {
+      "id": "b3",
+      "text": "Used Finite Element Analysis in a course project on a sensor dashboard"
+    },
+    {
+      "id": "b4",
+      "text": "Built a inventory tracker using GD&T for a student club"
+    },
+    {
+      "id": "b5",
+      "text": "Used 3D Printing in a course project on a maintenance log"
+    },
+    {
+      "id": "b6",
+      "text": "Used Technical Writing in a course project on a data pipeline"
+    }
+  ],
+  "company_prefs": [],
+  "id": "c017",
+  "location": {
+    "preferred": [
+      "Boston, MA"
+    ],
+    "remote": "remote"
+  },
+  "name": "Quinn Numbat",
+  "notes": [],
+  "program": "BS Mechanical Engineering",
+  "school": "Northeastern University",
+  "skills": [
+    {
+      "evidence": [
+        {
+          "source": "resume",
+          "text": "Built a inventory tracker using SolidWorks for a research group"
+        }
+      ],
+      "level": 2,
+      "skill_id": "solidworks"
+    },
+    {
+      "evidence": [
+        {
+          "source": "resume",
+          "text": "Built a sensor dashboard using MATLAB for a student club"
+        }
+      ],
+      "level": 2,
+      "skill_id": "matlab"
+    },
+    {
+      "evidence": [
+        {
+          "source": "resume",
+          "text": "Used Finite Element Analysis in a course project on a sensor dashboard"
+        }
+      ],
+      "level": 1,
+      "skill_id": "fea"
+    },
+    {
+      "evidence": [
+        {
+          "source": "resume",
+          "text": "Built a inventory tracker using GD&T for a student club"
+        }
+      ],
+      "level": 2,
+      "skill_id": "gdt"
+    },
+    {
+      "evidence": [
+        {
+          "source": "resume",
+          "text": "Used 3D Printing in a course project on a maintenance log"
+        }
+      ],
+      "level": 1,
+      "skill_id": "3d-printing"
+    },
+    {
+      "evidence": [
+        {
+          "source": "resume",
+          "text": "Used Technical Writing in a course project on a data pipeline"
+        }
+      ],
+      "level": 1,
+      "skill_id": "technical-writing"
+    }
+  ],
+  "visa": {
+    "needs_sponsorship": false,
+    "status": "US citizen",
+    "us_person": true
+  }
+}

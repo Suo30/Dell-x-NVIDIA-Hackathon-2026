@@ -3,192 +3,161 @@ Rules: MASTER_CONTEXT section 7. Both match_jobs.py (B) and
 match_candidates.py (C) call evaluate(), so keep its signature stable.
 
     evaluate(job: dict, profile: dict) -> dict
-        job: {"requirements": [...6.4...], "sponsorship": bool|None,
+        job: {"id", "requirements": [...6.4...], "sponsorship": bool|None,
               "clearance": "none"|"us_person"|"clearance"|None,
               "location": str|None, "company": str|None, "pay": str|None, "paid": int}
         profile: candidate profile (6.2)
         returns {"score": float, "route": "match"|"stretch"|"review"|"hidden"|"excluded",
-                 "detail": {...6.5...}}
+                 "eager": bool, "detail": {...6.5...}}
 
     score(detail_requirements) -> float              7.2
-    flags(job, profile) -> list[str]                 7.3
+    flags(job, profile) -> list[str]                 7.3, order: sponsorship, clearance, location
     route(score, detail_requirements, flags) -> str  7.4
-    apply_prefs(route, job, profile) -> (route, pref_note|None)   7.5 ("never" -> "excluded")
+    apply_prefs(route, job, profile) -> (route, pref_note|None, eager)   7.5
+        Prefs only demote: "never" -> "excluded"; "only_strong_offer" turns
+        match/stretch into review unless pay (lower bound) >= min_pay.
     sort_key(row) -> tuple                           7.6; row has route, score, eager, paid
     gap_text(skill_name, required, candidate_level) -> str
         "The evidence did not show MySQL at level 2 (has level 1)". Never "lacks".
+    top_evidence(detail, n=2) -> list[str]
+        Evidence of strong must requirements, then strong nice, deduplicated.
+    parse_hourly(pay) -> float|None
+        First number in the pay text, hourly USD; values over 1000 are annual (/2080).
 """
 import re
 
 import _taxonomy
+import aux_math
 
 ROUTE_ORDER = {"match": 0, "stretch": 1, "review": 2, "hidden": 3, "excluded": 4}
-_WEIGHT = {"must": 2, "nice": 1}
-_CREDIT = {"strong": 1.0, "partial": 0.5, "none": 0.0}
-_PAY_RE = re.compile(r"\d+(?:\.\d+)?")
+WEIGHT = {"must": 2, "nice": 1}
+CREDIT = {"strong": 1.0, "partial": 0.5, "none": 0.0}
+HOURS_PER_YEAR = 2080
 
 
-def _classify(required_level, candidate_level):
-    if candidate_level is None:
-        return "none"
-    if candidate_level >= required_level:
-        return "strong"
-    if candidate_level == required_level - 1:
-        return "partial"
-    return "none"
+def _requirement(req, by_skill, job_id):
+    if req["importance"] not in WEIGHT:
+        raise RuntimeError(f"job {job_id}: {req['skill_id']} has importance {req['importance']!r}")
+    required = req["level"]
+    level, evidence = 0, None
+    if req["skill_id"] in by_skill:
+        skill = by_skill[req["skill_id"]]
+        level = skill["level"]
+        if skill["evidence"]:
+            evidence = skill["evidence"][0]["text"]
+    if level >= required:
+        match = "strong"
+    elif level > 0 and level == required - 1:
+        match = "partial"
+    else:
+        match = "none"
+    closable = match == "partial" or (match == "none" and req["importance"] == "nice")
+    return {"skill_id": req["skill_id"], "importance": req["importance"], "required": required,
+            "candidate_level": level, "match": match, "evidence": evidence, "closable": closable}
 
 
-def _skill_levels(profile):
-    levels = {}
-    for entry in profile["skills"]:
-        levels[entry["skill_id"]] = entry["level"]
-    return levels
-
-
-def _skill_evidence(profile):
-    evidence = {}
-    for entry in profile["skills"]:
-        if entry["evidence"]:
-            evidence[entry["skill_id"]] = entry["evidence"][0]["text"]
-    return evidence
-
-
-def gap_text(skill_name, required, candidate_level):
-    if not candidate_level:
-        return f"The evidence did not show {skill_name} at level {required}"
-    return f"The evidence did not show {skill_name} at level {required} (has level {candidate_level})"
-
-
-def _build_requirements(job_requirements, profile):
-    levels = _skill_levels(profile)
-    evidence = _skill_evidence(profile)
-    detail_requirements = []
-    for req in job_requirements:
-        importance = req["importance"]
-        if importance not in _WEIGHT:
-            raise RuntimeError(
-                f"requirement {req['skill_id']!r} has importance {importance!r}, expected 'must' or 'nice'"
-            )
-        candidate_level = levels.get(req["skill_id"])
-        match = _classify(req["level"], candidate_level)
-        closable = match != "none" or importance == "nice"
-        detail_requirements.append({
-            "skill_id": req["skill_id"],
-            "importance": importance,
-            "required": req["level"],
-            "candidate_level": candidate_level,
-            "match": match,
-            "evidence": evidence.get(req["skill_id"]),
-            "closable": closable,
-        })
-    return detail_requirements
+def evaluate(job, profile):
+    if not job["requirements"]:
+        raise RuntimeError(f"job {job['id']} has no requirements; match only extracted jobs")
+    by_skill = {s["skill_id"]: s for s in profile["skills"]}
+    reqs = [_requirement(r, by_skill, job["id"]) for r in job["requirements"]]
+    score_value = score(reqs)
+    flag_list = flags(job, profile)
+    route_value, pref_note, eager = apply_prefs(route(score_value, reqs, flag_list), job, profile)
+    gaps = [gap_text(_taxonomy.name_of(r["skill_id"]), r["required"], r["candidate_level"])
+            for r in reqs if r["match"] != "strong"]
+    return {"score": score_value, "route": route_value, "eager": eager,
+            "detail": {"requirements": reqs, "flags": flag_list, "pref_note": pref_note,
+                       "gaps_text": gaps}}
 
 
 def score(detail_requirements):
     if not detail_requirements:
-        return 100.0
-    weighted_credit = 0.0
-    total_weight = 0.0
-    for req in detail_requirements:
-        weight = _WEIGHT[req["importance"]]
-        weighted_credit += weight * _CREDIT[req["match"]]
-        total_weight += weight
-    return round(100 * weighted_credit / total_weight, 1)
-
-
-def category_scores(detail_requirements):
-    """Split score() by taxonomy category: soft_skill vs technical. Bonus, not in 6.5."""
-    groups = {"technical": [], "soft_skill": []}
-    for req in detail_requirements:
-        bucket = "soft_skill" if _taxonomy.category_of(req["skill_id"]) == "soft_skill" else "technical"
-        groups[bucket].append(req)
-    return {name: score(reqs) for name, reqs in groups.items() if reqs}
-
-
-def _parse_pay(pay_text):
-    if not pay_text:
-        return None
-    numbers = [float(n) for n in _PAY_RE.findall(pay_text)]
-    return min(numbers) if numbers else None
+        raise RuntimeError("score: no requirements")
+    total = sum(WEIGHT[r["importance"]] for r in detail_requirements)
+    got = sum(WEIGHT[r["importance"]] * CREDIT[r["match"]] for r in detail_requirements)
+    return round(100 * got / total, 1)
 
 
 def flags(job, profile):
-    found = []
-    visa = profile["visa"]
-    if visa["needs_sponsorship"] and job.get("sponsorship") is False:
-        found.append("sponsorship")
-    if job.get("clearance") in ("us_person", "clearance") and not visa["us_person"]:
-        found.append("clearance")
-
-    job_location = job.get("location")
-    remote_pref = profile["location"]["remote"]
-    # Boundary: job location is free-form JD text, not a structured field, so
-    # "onsite" is inferred with a substring heuristic rather than trusted as typed data.
-    if job_location and remote_pref != "any" and "remote" not in job_location.lower():
-        preferred = profile["location"]["preferred"]
-        if not any(pref.lower() in job_location.lower() for pref in preferred):
-            found.append("location")
-    return found
+    visa, loc = profile["visa"], profile["location"]
+    out = []
+    if visa["needs_sponsorship"] and job["sponsorship"] is False:
+        out.append("sponsorship")
+    if job["clearance"] in ("us_person", "clearance") and not visa["us_person"]:
+        out.append("clearance")
+    if job["location"] and loc["remote"] != "any":
+        where = job["location"].lower()
+        cities = [p.split(",", 1)[0].strip().lower() for p in loc["preferred"]]
+        flexible = "remote" in where or "hybrid" in where
+        if not flexible and not any(c and c in where for c in cities):
+            out.append("location")
+    return out
 
 
 def route(score_value, detail_requirements, flag_list):
     if flag_list:
         return "review"
-    if score_value >= 70:
+    if aux_math.ge(score_value, 70):
         return "match"
-    if 50 <= score_value < 70:
-        gaps = [r for r in detail_requirements if r["match"] != "strong"]
-        if all(r["closable"] for r in gaps):
-            return "stretch"
+    gaps_closable = all(r["closable"] for r in detail_requirements if r["match"] != "strong")
+    if aux_math.ge(score_value, 50) and gaps_closable:
+        return "stretch"
     return "hidden"
 
 
+def _fmt(x):
+    return f"{round(x, 2):g}"
+
+
 def apply_prefs(route_value, job, profile):
-    company = job.get("company")
-    if not company:
-        return route_value, None
-    for pref in profile["company_prefs"]:
-        if pref["company"].lower() != company.lower():
-            continue
-        stance = pref["stance"]
-        if stance == "never":
-            return "excluded", None
-        if stance == "only_strong_offer":
-            pay = _parse_pay(job.get("pay"))
-            min_pay = pref["min_pay"]
-            if pay is None:
-                return "review", "only_strong_offer: pay not stated"
-            if min_pay is not None and pay < min_pay:
-                return "review", f"only_strong_offer: pay below ${min_pay}/hr minimum"
-            return route_value, None
-        return route_value, None
-    return route_value, None
+    company = (job["company"] or "").lower()
+    prefs = [p for p in profile["company_prefs"] if company and p["company"].lower() == company]
+    if not prefs:
+        return route_value, None, False
+    pref = prefs[0]
+    if pref["stance"] == "never":
+        return "excluded", None, False
+    if pref["stance"] == "eager":
+        return route_value, None, True
+    if pref["stance"] == "only_strong_offer" and route_value in ("match", "stretch"):
+        pay = parse_hourly(job["pay"])
+        if pay is None:
+            return "review", "only_strong_offer: pay not stated", False
+        if pref["min_pay"] is not None and aux_math.lt(pay, pref["min_pay"]):
+            note = f"only_strong_offer: pay {_fmt(pay)} below minimum {_fmt(pref['min_pay'])}"
+            return "review", note, False
+    return route_value, None, False
+
+
+def parse_hourly(pay):
+    if pay is None:
+        return None
+    nums = re.findall(r"\d[\d,]*\.?\d*", pay)
+    if not nums:
+        return None
+    value = float(nums[0].replace(",", ""))
+    if aux_math.lt(1000, value):
+        value /= HOURS_PER_YEAR
+    return value
 
 
 def sort_key(row):
-    return (
-        ROUTE_ORDER[row["route"]],
-        -row["score"],
-        0 if row["eager"] else 1,
-        0 if row["paid"] else 1,
-    )
+    return (ROUTE_ORDER[row["route"]], -row["score"], not row["eager"], not row["paid"])
 
 
-def evaluate(job, profile):
-    detail_requirements = _build_requirements(job["requirements"], profile)
-    score_value = score(detail_requirements)
-    flag_list = flags(job, profile)
-    route_value = route(score_value, detail_requirements, flag_list)
-    gaps_text = [
-        gap_text(_taxonomy.name_of(r["skill_id"]), r["required"], r["candidate_level"])
-        for r in detail_requirements
-        if r["match"] != "strong"
-    ]
-    detail = {
-        "requirements": detail_requirements,
-        "flags": flag_list,
-        "pref_note": None,
-        "gaps_text": gaps_text,
-        "category_scores": category_scores(detail_requirements),
-    }
-    return {"score": score_value, "route": route_value, "detail": detail}
+def gap_text(skill_name, required, candidate_level):
+    base = f"The evidence did not show {skill_name} at level {required}"
+    if candidate_level == 0:
+        return f"{base} (no evidence found)"
+    return f"{base} (has level {candidate_level})"
+
+
+def top_evidence(detail, n=2):
+    strong = [r for r in detail["requirements"] if r["match"] == "strong" and r["evidence"] is not None]
+    ordered = [r for r in strong if r["importance"] == "must"] + [r for r in strong if r["importance"] == "nice"]
+    out = []
+    for r in ordered:
+        if r["evidence"] not in out:
+            out.append(r["evidence"])
+    return out[:n]
